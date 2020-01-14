@@ -13,13 +13,15 @@ module.exports = app => {
 
   // 获取当前用户资料
   apiRouter.get('/user/my/profile', tokenRequired, user.getCurrentUserProfile)
-
   // 更新当前用户密码
   apiRouter.put('/user/my/password', tokenRequired, user.updateCurrentUserPassword)
-
   // 更新当前用户资料
   apiRouter.put('/user/my/profile', tokenRequired, user.updateCurrentUserProfile)
 
-  // 启用账户
-  apiRouter.put('/user/:id/enable', tokenRequired, user.enableAccount)
+  apiRouter.get('/user/all', user.all)
+  apiRouter.delete('/user', user.destroy)
+  apiRouter.delete('/user/deleteBatch', user.destroyBatch)
+  apiRouter.put('/user/:id/enable', user.enable)
+  apiRouter.put('/user/:id/disable', user.disable)
+  apiRouter.resources('user', '/user', user)
 };

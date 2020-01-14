@@ -113,7 +113,7 @@ export const asyncRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'Sys',
     meta: {
-      title: 'sys',
+      title: '系统管理',
       icon: 'lock',
       identification: 'sys',
       type: 'd'
@@ -124,7 +124,7 @@ export const asyncRoutes = [
         component: () => import('@/views/user/index'),
         name: 'SysUser',
         meta: {
-          title: 'sysUser',
+          title: '用户管理',
           identification: 'sys:user',
           type: 'm'
         }
@@ -134,7 +134,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'SysDepartment',
         meta: {
-          title: 'sysDepartment',
+          title: '部门管理',
           identification: 'sys:department',
           type: 'm'
         }
@@ -144,7 +144,7 @@ export const asyncRoutes = [
         component: () => import('@/views/role/index'),
         name: 'SysRole',
         meta: {
-          title: 'sysRole',
+          title: '角色管理',
           identification: 'sys:role',
           type: 'm'
         }
@@ -154,7 +154,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/index'),
         name: 'SysPermission',
         meta: {
-          title: 'sysPermission',
+          title: '权限管理',
           identification: 'sys:permission'
         },
         hidden: true
@@ -164,7 +164,7 @@ export const asyncRoutes = [
         component: () => import('@/views/dictionary/index'),
         name: 'SysDictionary',
         meta: {
-          title: 'sysDictionary',
+          title: '字典管理',
           identification: 'sys:dictionary',
           type: 'm'
         }
@@ -174,62 +174,8 @@ export const asyncRoutes = [
         component: () => import('@/views/log/index'),
         name: 'SysLog',
         meta: {
-          title: 'sysLog',
+          title: '日志管理',
           identification: 'sys:log',
-          type: 'm'
-        }
-      }
-    ]
-  },
-  {
-    path: '/plugin',
-    component: Layout,
-    redirect: '/plugin/vue-pdf',
-    alwaysShow: true, // will always show the root menu
-    name: 'Plugin',
-    meta: {
-      title: 'plugin',
-      icon: 'lock',
-      identification: 'plugin',
-      type: 'd'
-    },
-    children: [
-      {
-        path: 'vue-pdf',
-        component: () => import('@/views/plugin/vue-pdf'),
-        name: 'PluginVue-pdf',
-        meta: {
-          title: 'pluginVuePdf',
-          identification: 'plugin:vue-pdf',
-          type: 'm'
-        }
-      },
-      {
-        path: 'html2canvas',
-        component: () => import('@/views/plugin/html2canvas'),
-        name: 'PluginHtml2canvas',
-        meta: {
-          title: 'pluginHtml2canvas',
-          identification: 'plugin:html2canvas',
-          type: 'm'
-        }
-      }
-    ]
-  },
-  {
-    path: '/test',
-    component: Layout,
-    redirect: '/test/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/test/index'),
-        name: 'Test',
-        meta: {
-          title: 'test',
-          icon: 'user',
-          noCache: true,
-          identification: 'test:index',
           type: 'm'
         }
       }
@@ -252,57 +198,27 @@ export const asyncPermissionsButton = [
       {
         type: 'b',
         identification: 'sys:user:add',
-        title: 'add'
+        title: '添加'
       },
       {
         type: 'b',
         identification: 'sys:user:edit',
-        title: 'edit'
+        title: '编辑'
       },
       {
         type: 'b',
         identification: 'sys:user:delete',
-        title: 'delete'
+        title: '删除'
       },
       {
         type: 'b',
         identification: 'sys:user:import',
-        title: 'import'
+        title: '导入'
       },
       {
         type: 'b',
         identification: 'sys:user:export',
-        title: 'export'
-      }
-    ]
-  },
-  {
-    module: 'plugin:vue-pdf',
-    buttons: [
-      {
-        type: 'b',
-        identification: 'plugin:vue-pdf:test',
-        title: 'test'
-      }
-    ]
-  },
-  {
-    module: 'plugin:html2canvas',
-    buttons: [
-      {
-        type: 'b',
-        identification: 'plugin:html2canvas:test',
-        title: 'test'
-      }
-    ]
-  },
-  {
-    module: 'test:index',
-    buttons: [
-      {
-        type: 'b',
-        identification: 'test:index:test',
-        title: 'test'
+        title: '导出'
       }
     ]
   }

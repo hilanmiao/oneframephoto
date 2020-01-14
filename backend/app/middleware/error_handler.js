@@ -15,7 +15,7 @@ module.exports = (option, app) => {
         : err.message;
       // 从 error 对象上读出各个属性，设置到响应中
       ctx.body = { message: error_msg };
-      ctx.body.success = false;
+      // ctx.body.success = false;
       if (status === 422) {
         ctx.body.detail = err.errors;
       }

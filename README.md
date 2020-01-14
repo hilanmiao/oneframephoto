@@ -33,6 +33,9 @@ www.oneframephoto.com
 - 修改.env.sample 为 .env，部署时修改.env.production.sample
 - 修改.env文件的BASE_URL、SERVER_URL（api接口地址）
 
+## 其他说明
+
+- pm2 进程守护
 
 ## 应用截图
 

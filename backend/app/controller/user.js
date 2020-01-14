@@ -13,6 +13,87 @@ class UserController extends Controller {
     };
   }
 
+  // 添加
+  async create() {
+    const { ctx, service: { user } } = this;
+    const { username, password, displayName, email, mobile, sex, profileImageUrl, introduction, roleId } = ctx.request.body;
+    // ctx.validate(this.createRule);
+    const payload = { username, password, displayName, email, mobile, sex, profileImageUrl, introduction, roleId }
+    const data = await user.create(payload);
+    this.success({ ctx, data });
+  }
+
+  // 删除
+  async destroy() {
+    const { ctx, service: { user } } = this;
+    const id = ctx.params.id;
+    const data = await user.destroy(id);
+    this.success({ ctx, data });
+  }
+
+  // 批量删除
+  async destroyBatch() {
+    const { ctx, service: { user } } = this;
+    const ids = ctx.request.body;
+    const data = await user.destroys(ids);
+    if (data === 0) {
+      this.fail({ ctx, data });
+    } else {
+      this.success({ ctx, data });
+    }
+  }
+
+  // 编辑
+  async update() {
+    const { ctx, service: { user } } = this;
+    const id = ctx.params.id;
+    const { username, password, displayName, email, mobile, sex, profileImageUrl, introduction, roleId } = ctx.request.body;
+    const payload = { username, password, displayName, email, mobile, sex, profileImageUrl, introduction, roleId };
+    const data = await user.update(id, payload);
+    this.success({ ctx, data });
+  }
+
+  // 详情
+  async show() {
+    const { ctx, service: { user } } = this;
+    const id = ctx.params.id;
+    const data = await user.show(id);
+    this.success({ ctx, data });
+  }
+
+  // 可用
+  async enable() {
+    const { ctx, service: { user } } = this;
+    const id = ctx.params.id;
+    const data = await user.enable(id);
+    this.success({ ctx, data });
+  }
+
+  // 不可用
+  async disable() {
+    const { ctx, service: { user } } = this;
+    const id = ctx.params.id;
+    const data = await user.disable(id);
+    this.success({ ctx, data });
+  }
+
+  // 列表
+  async index() {
+    const { ctx, service: { user } } = this;
+    const { page, limit, username } = ctx.request.query;
+    const payload = { page, limit, username };
+    const data = await user.index(payload);
+    this.success({ ctx, data });
+  }
+
+  // 所有
+  async all() {
+    const { ctx, service: { user } } = this;
+    const payload = { };
+    const data = await user.all(payload);
+    this.success({ ctx, data });
+  }
+
   // 检查email
   checkEmail() {
   }
@@ -23,9 +104,10 @@ class UserController extends Controller {
     const user = ctx.request.user
     // console.log('user', ctx.request.user)
     // console.log('session', ctx.request.session)
-    const data = JSON.parse(JSON.stringify(user))
-    data.roles = [{ roleId: '1', roleName: 'administrator' }]
-    data.permissions = []
+    // const data = JSON.parse(JSON.stringify(user))
+    // data.roles = [{ roleId: '1', roleName: 'administrator' }]
+    // data.permissions = []
+    const data = await service.user.getCurrentUserProfile(user.id);
     this.success({ ctx, data })
   }
 
@@ -62,28 +144,6 @@ class UserController extends Controller {
     } else {
       this.success({ ctx });
     }
-  }
-
-  // 启用账户
-  enableAccount() {
-    const { app, ctx, service } = this;
-    const id = ctx.params.id
-  }
-
-  // 禁用账户
-  disableAccount() {
-  }
-
-  // 激活账户
-  activateAccount() {
-  }
-
-  // 灭活账户
-  deactivateAccount() {
-  }
-
-  // 获取用户权限
-  getUserScope() {
   }
 }
 

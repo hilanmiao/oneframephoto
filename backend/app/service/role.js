@@ -1,33 +1,42 @@
 'use strict';
 
-const Service = require('egg').Service;
+const Service = require('egg/index').Service;
 
 class RoleService extends Service {
+
   // 列表
   async index(payload) {
-    const { app: { model: { Role, Permission }, Sequelize: { Op } } } = this;
-    const { page, limit, text } = payload;
+    const { app: { model: { Role }, Sequelize: { Op } } } = this;
+    const { page, limit, name } = payload;
     const op = {
       where: {
         [Op.or]: {
-          title: { [Op.like]: `%${text}%` },
-          // '$permissions.identification$': { [Op.like]: `%${text}%` }
+          name: { [Op.like]: `%${name}%` },
         },
       },
       subQuery: false,
-      offset: +(page || 1) - 1 || 0,
+      offset: (+(page || 1) - 1) * +limit || 0,
       limit: +limit || 20,
-      // 包含权限
-      include: [{
-        model: Permission,
-        attributes: [ 'identification', 'type', 'remark' ],
-      }],
       order: [
-        [ 'created_at', 'DESC' ],
+        ['createdAt', 'DESC'],
       ],
     };
     const data = await Role.findAndCountAll(op);
     return data;
+  }
+
+  // 所有
+  async all(payload) {
+    const { app: { model: { Role }, Sequelize: { Op } } } = this;
+    const op = {
+      where: {
+        isEnabled: true
+      },
+      order: [
+        ['createdAt', 'DESC'],
+      ],
+    };
+    return await Role.findAndCountAll(op);
   }
 
   // 添加
@@ -46,33 +55,48 @@ class RoleService extends Service {
     return await model.update(payload);
   }
 
+  // 删除
+  async destroy(id) {
+    const { app: { model: { Role } } } = this;
+    const model = await Role.findByPk(id);
+    if (!model) {
+      return model;
+    }
+    return await model.destroy();
+  }
+
+  // 批量删除
+  async destroys(ids) {
+    const { app: { model: { Role }, Sequelize: { Op } } } = this;
+    const query = { where: { id: { [Op.in]: ids } } };
+
+    return Role.destroy(query);
+  }
+
   // 详情
-  async role_edit(id) {
+  async show(id) {
     const { app: { model: { Role } } } = this;
     return await Role.findByPk(id);
   }
 
-  // 删除角色
-  async destroy(payload) {
-    const { app: { model: { CourseCategory }, Sequelize: { Op } } } = this;
-    const query = { where: { id: { [Op.in]: payload } } };
-    return CourseCategory.destroy(query);
+  // 可用
+  async enable(id) {
+    const { app: { model: { Role } } } = this;
+    const model = await Role.findByPk(id);
+    if (!model) {
+      return model;
+    }
+    return await model.update({ isEnabled: true });
   }
 
-  // 所有
-  async all(payload) {
-    const { app: { model: { Role }, Sequelize: { Op } } } = this;
-    const { is_enabled } = payload;
-    const op = {
-      where: {
-        // is_enabled,
-        // deleted_at: { [Op.eq]: null }
-      },
-      order: [
-        ['created_at', 'DESC'],
-      ],
-    };
-    return await Role.findAndCountAll(op);
+  // 不可用
+  async disable(id) {
+    const { app: { model: { Role } } } = this;
+    const model = await Role.findByPk(id);
+    if (!model) {
+      return model;
+    }
+    return await model.update({ isEnabled: false });
   }
 }
 

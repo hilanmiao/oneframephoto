@@ -11,9 +11,9 @@ class LogoutController extends Controller {
     const session = ctx.request.session
     console.log(session)
     if (session) {
-      const result = await service.logout(session.id)
-      if (result === 0) {
-        this.success({ ctx })
+      const data = await service.logout.logout(session.id)
+      if (data) {
+        this.success({ ctx, data })
       } else {
         ctx.helper.notFound({ ctx, message: 'Session not found' })
       }

@@ -7,8 +7,11 @@ class LogoutService extends Service {
   // 登出
   async logout(id) {
     const { ctx, app: { model: { User, Session } } } = this;
-
-    return await Session.destroy(id)
+    const model = await Session.findByPk(id);
+    if (!model) {
+      return model;
+    }
+    return await model.destroy();
   }
 }
 

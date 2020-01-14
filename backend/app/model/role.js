@@ -2,7 +2,7 @@
 // 角色表
 const base = require('./base');
 module.exports = app => {
-  const { STRING, UUID, UUIDV1 } = app.Sequelize;
+  const { STRING, UUID, UUIDV1, BOOLEAN } = app.Sequelize;
   const Role = base.defineModel(app, 'role', {
     id: {
       type: UUID,
@@ -10,12 +10,20 @@ module.exports = app => {
       allowNull: false,
       defaultValue: UUIDV1,
     },
-    title: STRING(128), // 角色名称
+    name: { // 角色名称
+      type: STRING,
+      unique: true,
+    },
     remark: STRING(128), // 备注
+    isEnabled: { // 是否可用
+      type: BOOLEAN,
+      defaultValue: true
+    },
   });
+
   Role.associate = function() {
     Role.hasMany(app.model.Permission, { foreignKey: 'roleId', sourceKey: 'id', constraints: false });
-    // Role.hasMany(app.model.User, { foreignKey: 'role_id', sourceKey: 'id' });
+    Role.hasMany(app.model.User, { foreignKey: 'roleId', sourceKey: 'id', constraints: false });
   };
   return Role;
 };

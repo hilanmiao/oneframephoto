@@ -13,7 +13,7 @@ function generateUUID() {
   return uuidv1()
 }
 
-function defineModel(app, name, attributes) {
+function defineModel(app, name, attributes, options) {
   const { UUID } = app.Sequelize;
 
   const attrs = {};
@@ -38,7 +38,7 @@ function defineModel(app, name, attributes) {
     }
   };
 
-  return app.model.define(name, attrs, {
+  return app.model.define(name, attrs, Object.assign({
     // createdAt: 'created_at',
     // updatedAt: 'updated_at',
     // deletedAt: 'deleted_at',
@@ -48,7 +48,7 @@ function defineModel(app, name, attributes) {
     freezeTableName: true,
     // 不使用驼峰
     underscored: true
-  });
+  }, options))
 }
 
 module.exports = { defineModel };

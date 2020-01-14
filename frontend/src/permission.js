@@ -28,7 +28,8 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
-      const hasRoles = store.getters.user.roles && store.getters.user.roles.length > 0
+      // const hasRoles = store.getters.user.roles && store.getters.user.roles.length > 0
+      const hasRoles = store.getters.user.role
       if (hasRoles) {
         next()
       } else {
@@ -45,7 +46,10 @@ router.beforeEach(async(to, from, next) => {
             })
 
           // const { roles, permissions } = await store.dispatch('auth/getUserInfo')
-          const { roles, permissions } = user
+          // TODO: 为多角色做铺垫
+          const roles = [user.role]
+          const permissions = user.role.permissions
+
           // reset user info
           await store.dispatch('auth/setUserInfo', user)
 

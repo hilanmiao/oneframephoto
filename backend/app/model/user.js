@@ -86,5 +86,9 @@ module.exports = app => {
     // });
   });
 
+  User.associate = function() {
+    User.belongsTo(app.model.Role, { foreignKey: 'roleId', sourceKey: 'id', constraints: false });
+  };
+
   return User;
 };
