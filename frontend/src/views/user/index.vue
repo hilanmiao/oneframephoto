@@ -2,13 +2,13 @@
   <div class="app-container page-user">
     <div class="filter-container">
       <el-input v-model="listQuery.username" placeholder="标题" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      <el-button v-permission-button="[`${identification}:add`]" v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="handleCreate">
+      <el-button v-permission-button="[`${identification}:add`]" class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-edit" @click="handleCreate">
         添加
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="danger" icon="el-icon-delete" @click="handleDeleteBatch">
+      <el-button v-permission-button="[`${identification}:delete`]" class="filter-item" style="margin-left: 10px;" type="danger" icon="el-icon-delete" @click="handleDeleteBatch">
         批量删除
       </el-button>
     </div>
@@ -74,10 +74,10 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button size="mini" type="primary" @click="handleUpdate(row)">
+          <el-button v-permission-button="[`${identification}:edit`]" size="mini" type="primary" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(row)">
+          <el-button v-permission-button="[`${identification}:delete`]" size="mini" type="danger" @click="handleDelete(row)">
             删除
           </el-button>
           <el-button size="mini" type="success">
@@ -151,6 +151,7 @@
 </template>
 
 <script>
+import permissionButton from '@/directive/permission-button/index.js' // 权限判断指令
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
@@ -159,52 +160,56 @@ import { userService, roleService, fileService } from '@/services'
 
 export default {
   components: { Pagination },
-  directives: { waves },
+  directives: { waves, permissionButton },
   filters: {
 
   },
   props: {},
 
-  data: () => ({
-    // 列表相关
-    list: null,
-    total: 0,
-    listLoading: true,
-    listQuery: {
-      page: 1,
-      limit: 20,
-      username: undefined
-    },
-    multipleSelection: [],
-    // 表单相关
-    roleList: [],
-    temp: {
-      id: undefined,
-      username: '',
-      password: '',
-      displayName: '',
-      email: '',
-      mobile: '',
-      sex: '1',
-      introduction: '',
-      profileImageUrl: '',
-      roleId: undefined
-    },
-    dialogFormVisible: false,
-    dialogStatus: '',
-    textMap: {
-      update: '编辑',
-      create: '添加'
-    },
-    rules: {
-      roleId: [{ required: true, message: '必填', trigger: 'blur' }],
-      username: [{ required: true, message: '必填', trigger: 'blur' }],
-      password: [
-        { required: true, message: '必填', trigger: 'blur' },
-        { min: 6, message: '至少6个字符', trigger: 'blur' }
-      ]
+  data() {
+    return {
+    // 路由唯一标志
+      identification: this.$route.meta.identification,
+      // 列表相关
+      list: null,
+      total: 0,
+      listLoading: true,
+      listQuery: {
+        page: 1,
+        limit: 20,
+        username: undefined
+      },
+      multipleSelection: [],
+      // 表单相关
+      roleList: [],
+      temp: {
+        id: undefined,
+        username: '',
+        password: '',
+        displayName: '',
+        email: '',
+        mobile: '',
+        sex: '1',
+        introduction: '',
+        profileImageUrl: '',
+        roleId: undefined
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '添加'
+      },
+      rules: {
+        roleId: [{ required: true, message: '必填', trigger: 'blur' }],
+        username: [{ required: true, message: '必填', trigger: 'blur' }],
+        password: [
+          { required: true, message: '必填', trigger: 'blur' },
+          { min: 6, message: '至少6个字符', trigger: 'blur' }
+        ]
+      }
     }
-  }),
+  },
 
   computed: {},
 

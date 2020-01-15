@@ -96,33 +96,35 @@ export default {
   },
   props: {},
 
-  data: () => ({
+  data() {
+    return {
     // 列表相关
-    list: null,
-    total: 0,
-    listLoading: true,
-    listQuery: {
-      page: 1,
-      limit: 20,
-      name: undefined
-    },
-    multipleSelection: [],
-    // 表单相关
-    temp: {
-      id: undefined,
-      name: '',
-      remark: ''
-    },
-    dialogFormVisible: false,
-    dialogStatus: '',
-    textMap: {
-      update: '编辑',
-      create: '添加'
-    },
-    rules: {
-      name: [{ required: true, message: '必填', trigger: 'blur' }]
+      list: null,
+      total: 0,
+      listLoading: true,
+      listQuery: {
+        page: 1,
+        limit: 20,
+        name: undefined
+      },
+      multipleSelection: [],
+      // 表单相关
+      temp: {
+        id: undefined,
+        name: '',
+        remark: ''
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '添加'
+      },
+      rules: {
+        name: [{ required: true, message: '必填', trigger: 'blur' }]
+      }
     }
-  }),
+  },
 
   computed: {},
 
