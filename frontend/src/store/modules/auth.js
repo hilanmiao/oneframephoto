@@ -3,6 +3,7 @@ import {
   getRefreshToken, setRefreshToken, removeRefreshToken
 } from '../../utils/auth'
 import axios from 'axios'
+import { resetRouter } from '../../router'
 
 const state = {
   user: {},
@@ -52,6 +53,8 @@ const actions = {
     commit('SET_USER', {})
     removeAccessToken()
     removeRefreshToken()
+    // 重置路由映射 https://github.com/pekonchan/Blog/issues/20
+    resetRouter()
   },
 
   setUserInfo({ commit, dispatch }, data) {
