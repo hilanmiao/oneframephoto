@@ -181,6 +181,25 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/story',
+    component: Layout,
+    redirect: '/story/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/story/index'),
+        name: 'Story',
+        meta: {
+          title: '故事管理',
+          icon: 'user',
+          noCache: true,
+          identification: 'story:index',
+          type: 'm'
+        }
+      }
+    ]
+  },
 
   { path: '*', redirect: '/404', hidden: true }
 ]

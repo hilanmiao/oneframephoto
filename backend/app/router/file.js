@@ -11,4 +11,5 @@ module.exports = app => {
   const tokenRequired = middleware.tokenRequired(null, app)
 
   apiRouter.post('/upload', tokenRequired, file.upload)
+  apiRouter.post('/uploadPhoto', tokenRequired, file.uploadPhoto)
 };

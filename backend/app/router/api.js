@@ -13,4 +13,20 @@ module.exports = app => {
   const apiV1Router = app.router.namespace('/api/v1', tokenRequired);
 
   const adminRequired = middleware.adminRequired();
+
+  const { story } = controller.api;
+
+  /**
+   * 故事模块
+   */
+  // eslint-disable-next-line no-lone-blocks
+  {
+    apiV1Router.get('/story/all', story.all)
+    apiV1Router.delete('/story', story.destroy)
+    apiV1Router.delete('/story/deleteBatch', story.destroyBatch)
+    apiV1Router.put('/story/:id/enable', story.enable)
+    apiV1Router.put('/story/:id/disable', story.disable)
+    apiV1Router.resources('story', '/story', story)
+  }
+
 };

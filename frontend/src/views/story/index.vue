@@ -1,7 +1,7 @@
 <template>
-  <div class="app-container page-role">
+  <div class="app-container page-story">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="角色名称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.title" placeholder="标题" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -25,12 +25,21 @@
       <el-table-column type="selection" align="center" width="55" />
       <el-table-column label="标题" min-width="150px">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.name }}</span>
+          <span class="link-type" @click="handleUpdate(row)">{{ row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="备注" min-width="150px" align="center">
+      <el-table-column label="简介" min-width="150px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.remark }}</span>
+          <span>{{ row.introduction }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="图片" width="150px" align="center">
+        <template slot-scope="{row}">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="row.photo"
+            fit="fit"
+          />
         </template>
       </el-table-column>
       <el-table-column label="启用/禁用" width="100px" align="center">
@@ -62,12 +71,27 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name" placeholder="请输入" />
-          名称不能重复
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="temp.title" placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
+        <el-form-item label="简介" prop="introduction">
+          <el-input v-model="temp.introduction" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item label="图片" prop="photo">
+          <el-upload
+            class="avatar-uploader"
+            action="#"
+            :show-file-list="false"
+            :on-success="handlePhotoUploadSuccess"
+            :on-error="handlePhotoUploadError"
+            :http-request="uploadPhoto"
+          >
+            <img v-if="temp.photo" :src="temp.photo" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="内容" prop="content">
+          <el-input v-model="temp.content" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -86,7 +110,8 @@
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-import { roleService } from '@/services'
+import config from '@/config'
+import { storyService, fileService } from '@/services'
 
 export default {
   components: { Pagination },
@@ -105,14 +130,16 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        name: undefined
+        title: undefined
       },
       multipleSelection: [],
       // 表单相关
       temp: {
         id: undefined,
-        name: '',
-        remark: ''
+        title: '',
+        introduction: '',
+        photo: '',
+        content: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -121,7 +148,10 @@ export default {
         create: '添加'
       },
       rules: {
-        name: [{ required: true, message: '必填', trigger: 'blur' }]
+        title: [{ required: true, message: '必填', trigger: 'blur' }],
+        photo: [{ required: true, message: '必填', trigger: 'blur' }],
+        introduction: [{ required: true, message: '必填', trigger: 'blur' }],
+        content: [{ required: true, message: '必填', trigger: 'blur' }]
       }
     }
   },
@@ -137,12 +167,12 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      roleService.getList(this.listQuery).then(response => {
+      storyService.getList(this.listQuery).then(response => {
         this.list = response.data.rows
         this.total = response.data.count
         this.listLoading = false
       }).catch(error => {
-        console.error('role.getList-error:', error)
+        console.error('story.getList-error:', error)
         this.listLoading = false
         this.$message({
           message: '获取列表失败',
@@ -156,14 +186,14 @@ export default {
     },
     changeIsEnabled(row) {
       if (row.isEnabled) {
-        roleService.enable(row.id).then(() => {
+        storyService.enable(row.id).then(() => {
           this.getList()
           this.$message({
             message: '状态修改成功',
             type: 'success'
           })
         }).catch(error => {
-          console.error('role.enable-error:', error)
+          console.error('story.enable-error:', error)
           this.getList()
           this.$message({
             message: '状态修改失败',
@@ -171,14 +201,14 @@ export default {
           })
         })
       } else {
-        roleService.disable(row.id).then(() => {
+        storyService.disable(row.id).then(() => {
           this.getList()
           this.$message({
             message: '状态修改成功',
             type: 'success'
           })
         }).catch(error => {
-          console.error('role.enable-error:', error)
+          console.error('story.enable-error:', error)
           this.getList()
           this.$message({
             message: '状态修改失败',
@@ -190,6 +220,44 @@ export default {
     handleFilter() {
       this.listQuery.page = 1
       this.getList()
+    },
+    beforeUploadPhoto(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
+      const isLt10M = file.size / 1024 / 1024 < 10
+
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传图片只能是 JPG、PNG 格式!')
+        return false
+      }
+      if (!isLt10M) {
+        this.$message.error('上传图片大小不能超过 10MB!')
+        return false
+      }
+      return true
+    },
+    uploadPhoto(content) {
+      const checkUpload = this.beforeUploadPhoto(content.file)
+      if (!checkUpload) {
+        return
+      }
+      console.log(content)
+      fileService.uploadPhoto(content.file.name, content.file).then(response => {
+        content.onSuccess(response)
+      }).catch(error => {
+        content.onError(error)
+      })
+    },
+    handlePhotoUploadSuccess(response, file) {
+      console.log(response)
+      this.temp.photo = config.serverURI + response.data.url
+    },
+    handlePhotoUploadError(err) {
+      console.log(err)
+      this.$message({
+        message: '上传失败',
+        type: 'error'
+      })
     },
     handleCreate() {
       this.resetTemp()
@@ -231,25 +299,19 @@ export default {
         this.deleteDataBatch(ids)
       })
     },
-    handlePermission(row) {
-      this.$router.push({
-        name: 'SysPermission',
-        params: {
-          role: row
-        }
-      })
-    },
     resetTemp() {
       this.temp = {
         id: undefined,
-        name: '',
-        remark: ''
+        title: '',
+        introduction: '',
+        photo: '',
+        content: ''
       }
     },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          roleService.postModel(this.temp).then(() => {
+          storyService.postModel(this.temp).then(() => {
             this.getList()
             this.dialogFormVisible = false
             this.$message({
@@ -257,7 +319,7 @@ export default {
               type: 'success'
             })
           }).catch(error => {
-            console.error('role.postModel-error:', error)
+            console.error('story.postModel-error:', error)
             this.getList()
             this.dialogFormVisible = false
             let errMsg = '添加失败'
@@ -275,7 +337,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          roleService.putModel(this.temp.id, this.temp).then(() => {
+          storyService.putModel(this.temp.id, this.temp).then(() => {
             this.getList()
             this.dialogFormVisible = false
             this.$message({
@@ -283,7 +345,7 @@ export default {
               type: 'success'
             })
           }).catch(error => {
-            console.error('role.postModel-error:', error)
+            console.error('story.postModel-error:', error)
             this.getList()
             this.dialogFormVisible = false
             this.$message({
@@ -295,14 +357,14 @@ export default {
       })
     },
     deleteData() {
-      roleService.deleteModel(this.temp.id).then(() => {
+      storyService.deleteModel(this.temp.id).then(() => {
         this.getList()
         this.$message({
           message: '删除成功',
           type: 'success'
         })
       }).catch(error => {
-        console.error('role.deleteModel-error:', error)
+        console.error('story.deleteModel-error:', error)
         this.getList()
         this.$message({
           message: '删除失败',
@@ -311,14 +373,14 @@ export default {
       })
     },
     deleteDataBatch(ids) {
-      roleService.deleteModels(ids).then(() => {
+      storyService.deleteModels(ids).then(() => {
         this.getList()
         this.$message({
           message: '批量删除成功',
           type: 'success'
         })
       }).catch(error => {
-        console.error('role.deleteModels-error:', error)
+        console.error('story.deleteModels-error:', error)
         this.getList()
         this.$message({
           message: '批量删除失败',
@@ -329,6 +391,37 @@ export default {
   }
 }
 </script>
+
+<style rel="stylesheet/scss" lang="scss">
+  .page-story {
+    .avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+      border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 178px;
+      height: 178px;
+      line-height: 178px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 178px;
+      height: 178px;
+      display: block;
+    }
+  }
+</style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 

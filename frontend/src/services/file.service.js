@@ -23,11 +23,11 @@ internals.upload = (name, file, options) => {
   return http.post('api/upload', data, options)
 }
 
-internals.uploadZip = (name, file, options) => {
+internals.uploadPhoto = (name, file, options) => {
   const data = new FormData()
   data.append('name', name)
   data.append('file', file)
-  return http.post('api/uploadZip', data, options)
+  return http.post('api/uploadPhoto', data, options)
 }
 
 export default internals
