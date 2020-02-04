@@ -37,5 +37,10 @@ module.exports = {
   passportAsiczWeixin: {
     enable: true,
     package: 'egg-passport-asicz-weixin',
+  },
+  alinode: {
+    enable: true,
+    package: 'egg-alinode',
+    env: 'production'
   }
 };

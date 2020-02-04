@@ -147,6 +147,13 @@ module.exports = appInfo => {
     callbackURL: '/passport/weixin/callback'
   };
 
+  // alinode 性能平台
+  config.alinode = {
+    server: config_private.ALINODE.SERVER,
+    appid: config_private.ALINODE.APPID,
+    secret: config_private.ALINODE.SECRET
+  };
+
   return {
     ...config,
   };

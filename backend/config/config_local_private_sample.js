@@ -16,6 +16,11 @@ const config = {
     USER: 'root',
     PASSWORD: '',
     DATABASE: 'oneframephoto',
+  },
+  ALINODE: {
+    SERVER: 'wss://agentserver.node.aliyun.com:8080',
+    APPID: '',
+    SECRET: ''
   }
 }
 
