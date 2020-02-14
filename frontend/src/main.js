@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'production') {
   // TODO：please set your Sentry code
   // 请设置你自己的Sentry代码
   Sentry.init({
-    dsn: 'https://e49f4a2d012845628bbdabaa89fe6703@sentry.io/1540453',
+    dsn: process.env.SENTRY_URL,
     integrations: [new Integrations.Vue({ Vue, attachProps: true })]
   })
 }

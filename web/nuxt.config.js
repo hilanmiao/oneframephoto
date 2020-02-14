@@ -34,7 +34,9 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~/plugins/vue-awesome-swiper.js', ssr: false }
+    { src: '~/plugins/vue-awesome-swiper.js', mode: 'client' },
+    { src: '~/plugins/vue-waterfall.js', mode: 'client' },
+    { src: '~/plugins/vue-infinite-scroll.js', mode: 'client' }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -54,7 +56,7 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     // 指定打包时使用的dotenv
-    ['@nuxtjs/dotenv', { path: '', filename: '.env.production' }]
+    ['@nuxtjs/dotenv', { path: '.env.production', filename: '.env.production' }]
   ],
   /*
   ** Axios module configuration

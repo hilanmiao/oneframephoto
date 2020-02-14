@@ -15,8 +15,8 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  background-image: url(/background.jpg);
-  background-size: cover;
+  /*background-image: url(/background.jpg);*/
+  /*background-size: cover;*/
 }
 
 *,
