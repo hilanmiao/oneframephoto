@@ -11,7 +11,7 @@ class StoryService extends Service {
     const op = {
       where: {
         [Op.or]: {
-          title: { [Op.like]: `%${title}%` },
+          title: { [Op.like]: title ? `%${title}%` : `%%`},
         },
       },
       subQuery: false,

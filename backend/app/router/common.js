@@ -18,6 +18,7 @@ module.exports = app => {
    */
   // eslint-disable-next-line no-lone-blocks
   {
-    apiRouter.get('/common/story', api.story.all)
+    apiRouter.get('/common/story', api.story.index)
+    apiRouter.get('/common/story/:id', api.story.show)
   }
 };

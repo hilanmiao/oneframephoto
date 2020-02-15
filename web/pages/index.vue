@@ -58,9 +58,13 @@ export default {
     Waterfall,
     WaterfallSlot
   },
-  async asyncData ({ params }) {
+  async asyncData () {
+    const params = {
+      page: 1,
+      limit: 5
+    }
     const serverUrl = process.env.SERVER_URL
-    const { data } = await axios.get(`${serverUrl}/api/common/story`)
+    const { data } = await axios.get(`${serverUrl}/api/common/story`, params)
     data.rows.forEach((item) => {
       const extName = path.extname(item.photo)
       const baseName = path.basename(item.photo, extName)
@@ -72,7 +76,7 @@ export default {
   },
   data () {
     return {
-      grow: [2, 2, 2],
+      grow: [3, 2, 2],
       list: []
     }
   }
@@ -86,7 +90,7 @@ export default {
     }
     .hero-body {
       .image-container {
-        padding: 10px;
+        padding: 15px;
         img {
           border-radius: 4px;
         }
