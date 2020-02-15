@@ -22,13 +22,14 @@
           :line-gap="200"
           :watch="list"
           :grow="grow"
+          @reflowed="reflowed"
         >
           <!-- each component is wrapped by a waterfall slot -->
           <waterfall-slot
             v-for="(item, index) in list"
             :key="index"
-            :width="item.width"
-            :height="item.height"
+            :width="item.photoWidth"
+            :height="item.photoHeight"
             :order="index"
           >
             <figure>
@@ -41,14 +42,18 @@
             </figure>
           </waterfall-slot>
         </waterfall>
+        <div class="noMore">
+          <p v-show="isBusy" style="margin-top:10px;" class="loading">
+            loading
+          </p>
+          <p v-show="noMore" style="margin:10px 0;font-size:12px;color:#ccc">没有更多了</p>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import path from 'path'
-import _ from 'lodash'
 import axios from 'axios'
 import Waterfall from '~/components/vue-waterfall/waterfall'
 import WaterfallSlot from '~/components/vue-waterfall/waterfall-slot'
@@ -59,25 +64,62 @@ export default {
     WaterfallSlot
   },
   async asyncData () {
-    const params = {
-      page: 1,
-      limit: 5
-    }
-    const serverUrl = process.env.SERVER_URL
-    const { data } = await axios.get(`${serverUrl}/api/common/story`, params)
-    data.rows.forEach((item) => {
-      const extName = path.extname(item.photo)
-      const baseName = path.basename(item.photo, extName)
-      const arrayBaseName = _.words(baseName)
-      item.width = arrayBaseName[0]
-      item.height = arrayBaseName[2]
-    })
-    return { list: data.rows }
+    // const serverUrl = process.env.SERVER_URL
+    // const { data } = await axios.get(`${serverUrl}/api/common/story`)
+    // return { list: data.rows }
   },
   data () {
     return {
       grow: [3, 2, 2],
-      list: []
+      isBusy: false,
+      lastScrollTop: 0,
+      list: [],
+      listQuery: {
+        page: 0,
+        limit: 10
+      },
+      noMore: false
+    }
+  },
+  mounted () {
+    this.loadMore()
+    window.addEventListener('scroll', this.handleScroll, true)
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
+  methods: {
+    handleScroll (e) {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      if (scrollTop > this.lastScrollTop) {
+        // 表示向下滚动
+        this.lastScrollTop = scrollTop
+        // 图片容器padding：15px
+        if (scrollTop + window.innerHeight + 15 >= document.body.clientHeight) {
+          this.loadMore()
+        }
+      }
+    },
+    async loadMore () {
+      if (!this.isBusy) {
+        this.isBusy = true
+        this.listQuery.page += 1
+        const { data } = await this._getList(this.listQuery)
+        if (data.rows.length) {
+          this.list.push(...data.rows)
+        } else {
+          this.isBusy = false
+          this.noMore = true
+        }
+      }
+    },
+
+    reflowed () {
+      this.isBusy = false
+    },
+
+    _getList (params) {
+      return axios.get('http://localhost:7001/api/common/story', { params })
     }
   }
 }

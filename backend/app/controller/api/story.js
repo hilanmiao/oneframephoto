@@ -1,6 +1,8 @@
 'use strict';
 
 const Controller = require('../base');
+const _ = require('lodash')
+const path = require('path');
 
 class StoryController extends Controller {
 
@@ -18,6 +20,9 @@ class StoryController extends Controller {
     const { title, introduction, content, photo } = ctx.request.body;
     // ctx.validate(this.createRule);
     const payload = { title, introduction, content, photo }
+    const wh = this.getWH(photo)
+    payload.photoWidth = wh.width
+    payload.photoHeight = wh.height
     const data = await story.create(payload);
     this.success({ ctx, data });
   }
@@ -47,7 +52,11 @@ class StoryController extends Controller {
     const { ctx, service: { story } } = this;
     const id = ctx.params.id;
     const { title, introduction, content, photo } = ctx.request.body;
-    const payload = { title, introduction, content, photo };
+    const payload = { title, introduction, content, photo }
+    const wh = this.getWH(photo)
+    payload.photoWidth = wh.width
+    payload.photoHeight = wh.height
+    console.log(payload)
     const data = await story.update(id, payload);
     this.success({ ctx, data });
   }
@@ -93,6 +102,18 @@ class StoryController extends Controller {
     this.success({ ctx, data });
   }
 
+  // 分解图片宽高
+  getWH(uri) {
+    // 分解出图片宽高
+    const extName = path.extname(uri)
+    const baseName = path.basename(uri, extName)
+    console.log(baseName)
+    const arrayBaseName = _.words(baseName)
+    console.log(arrayBaseName)
+    const width = arrayBaseName[0]
+    const height = arrayBaseName[2]
+    return { width, height }
+  }
 }
 
 module.exports = StoryController;

@@ -16,6 +16,8 @@ module.exports = app => {
     introduction: STRING, // 简介
     content: TEXT, // 内容
     photo: STRING, // 照片
+    photoWidth: STRING, // 照片宽高
+    photoHeight: STRING, // 照片宽高
     isEnabled: { // 是否可用
       type: BOOLEAN,
       defaultValue: true

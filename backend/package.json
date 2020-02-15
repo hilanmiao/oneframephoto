@@ -54,7 +54,7 @@
     "egg-bin": "^4.14.0",
     "egg-ci": "^1.13.1",
     "egg-mock": "^3.24.1",
-    "eslint": "^5.13.0",
+    "eslint": "^6.8.0",
     "eslint-config-egg": "^7.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "factory-girl": "^5.0.4",
