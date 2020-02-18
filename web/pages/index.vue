@@ -32,21 +32,24 @@
             :height="item.photoHeight"
             :order="index"
           >
-            <figure>
-              <div class="image-container">
-                <a href="">
-                  <img :src="item.photo" alt="">
-                </a>
-                <div class="content" />
-              </div>
-            </figure>
+            <div class="image-container">
+              <figure>
+                <img :src="item.photo" :alt="item.title">
+
+                <figcaption>
+                  <p>content</p>
+                </figcaption>
+              </figure>
+            </div>
           </waterfall-slot>
         </waterfall>
         <div class="noMore">
           <p v-show="isBusy" style="margin-top:10px;" class="loading">
             loading
           </p>
-          <p v-show="noMore" style="margin:10px 0;font-size:12px;color:#ccc">没有更多了</p>
+          <p v-show="noMore" style="margin:10px 0;font-size:12px;color:#ccc">
+            没有更多了
+          </p>
         </div>
       </div>
     </div>
@@ -133,8 +136,36 @@ export default {
     .hero-body {
       .image-container {
         padding: 15px;
-        img {
-          border-radius: 4px;
+        figure {
+          border-radius: 10px;
+          background: #2f3238;
+          /*overflow: hidden;*/
+          overflow: unset;
+          position: absolute; /* this breaks the overflow:hidden in Chrome/Opera */
+          /* this fixes the overflow:hidden in Chrome */
+          -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+        }
+
+        figure img {
+          display: block;
+          transition: opacity 1s, transform 1s;
+        }
+
+        figure:hover img {
+          opacity: 0.8;
+          transform: scale3d(1.1,1.1,1);
+        }
+
+        figcaption {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
     }
