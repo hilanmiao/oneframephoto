@@ -37,7 +37,9 @@ export default {
     { src: '~/plugins/vue-awesome-swiper.js', mode: 'client' },
     { src: '~/plugins/vue-waterfall.js', mode: 'client' },
     { src: '~/plugins/vue-infinite-scroll.js', mode: 'client' },
-    { src: '~/plugins/vue-infinite-loading.js', mode: 'client' }
+    { src: '~/plugins/vue-infinite-loading.js', mode: 'client' },
+    { src: '~/plugins/element-ui.js', mode: 'client' },
+    { src: '~/plugins/axios.js' }
   ],
   /*
   ** Nuxt.js dev-modules
