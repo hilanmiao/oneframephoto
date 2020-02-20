@@ -8,26 +8,19 @@ module.exports = app => {
   const { passport } = controller
 
   // 挂载鉴权路由
-  // app.passport.mount('github')
-  // github
-  const githubStrategy = app.passport.authenticate('github', {
-    successRedirect: '/passport/authCallbackSuccess',
-    failureRedirect: '/passport/authCallbackFail'
-  })
-  router.get('/passport/github', githubStrategy)
-  router.get('/passport/github/callback', githubStrategy)
 
   // local
   const localStrategy = app.passport.authenticate('local', {})
   router.post('passport/local', localStrategy)
 
+  // github
+  app.passport.mount('github', app.config.passportGithub)
+
   // weixin
-  const weixinStrategy = app.passport.authenticate('loginByWeixin', {
-    successRedirect: '/passport/authCallbackSuccess',
-    failureRedirect: '/passport/authCallbackFail'
-  })
-  router.get('/passport/weixin', weixinStrategy)
-  router.get('/passport/weixin/callback', weixinStrategy)
+  app.passport.mount('loginByWeixin', app.config.passportAsiczWeixin)
+
+  // dingtalk
+  app.passport.mount('dingtalk', app.config.passportDingtalk)
 
   // 鉴权回调页面
   router.get('/passport/authCallbackSuccess', passport.authCallbackSuccess)

@@ -10,6 +10,15 @@ const config = {
   GITHUB_SECRET: '',
   WEIXIN_ID: '',
   WEIXIN_SECRET: '',
+  DINGTALK: {
+    DINGTALK_ID: '',
+    DINGTALK_SECRET: '',
+    OAUTH_PAGE_CONFIG: {
+      TITLE: '一帧照片',
+      LOGO: 'https://avatars1.githubusercontent.com/u/27052900?s=460&v=4',
+      SLOGAN: 'Welcome to oneframephoto',
+    },
+  },
   MYSQL: {
     HOST: '127.0.0.1',
     PORT: '3306',

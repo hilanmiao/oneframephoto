@@ -32,7 +32,8 @@ module.exports = app => {
       defaultValue: true
     },
     githubId: STRING, // githubId
-    weixinId: STRING // 微信Id
+    weixinId: STRING, // 微信Id
+    dingtalkId: STRING // 钉钉Id
   });
 
   // 有context的时候可以用this

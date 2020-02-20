@@ -79,6 +79,9 @@
         <el-button @click="go(loginWeixinURI)">
           微信1
         </el-button>
+        <el-button @click="go(loginDingtalkURI)">
+          钉钉
+        </el-button>
       </div>
     </el-form>
 
@@ -143,6 +146,9 @@ export default {
     },
     loginWeixinURI() {
       return config.serverURI + '/passport/weixin'
+    },
+    loginDingtalkURI() {
+      return config.serverURI + '/passport/dingtalk'
     }
   },
   watch: {

@@ -79,6 +79,30 @@ module.exports = app => {
     return existUser;
   };
 
+  // dingtalk 鉴权处理
+  const dingtalkHandler = async (ctx, profile) => {
+    const unionid = profile.raw.unionid;
+    let existUser = await ctx.service.user.findByDingtalkId(unionid);
+
+    // 用户不存在则创建
+    if (!existUser) {
+      existUser = new ctx.model.User();
+      existUser.dingtalkId = unionid;
+      existUser.password = GeneratePassword(10, false)
+    }
+    // 用户存在，更新字段
+    existUser.username = unionid;
+    existUser.displayName = profile.name;
+
+    try {
+      await existUser.save();
+      // await ctx.model.User.create(existUser);
+    } catch (ex) {
+      throw ex;
+    }
+    return existUser;
+  };
+
   // 开始前执行
   app.beforeStart(async () => {
     // 本地开发时可以使用自动迁移数据库，
@@ -104,6 +128,9 @@ module.exports = app => {
           // passport-weixin 插件没有兼容egg-passport,没有ctx,创造一个匿名context实例
           ctx = app.createAnonymousContext();
           handler = weixinHandler;
+          break;
+        case 'dingtalk':
+          handler = dingtalkHandler;
           break;
         default:
           break;

@@ -37,7 +37,7 @@ module.exports = appInfo => {
   };
 
   // 添加你的全局中间件(路由的单独中间件顺序在全局之后)
-  config.middleware = ['log', 'errorHandler'];
+  config.middleware = ['errorHandler'];
 
   // mysql
   config.mysql = {
@@ -128,23 +128,45 @@ module.exports = appInfo => {
     jsonLimit: '10mb'
   };
 
-  // local鉴权
+  // local 鉴权
   config.passportLocal = {
     usernameField: 'username',
     passwordField: 'password'
   };
 
-  // github鉴权
+  // github 鉴权
   config.passportGithub = {
     key: config_private.GITHUB_ID,
-    secret: config_private.GITHUB_SECRET
+    secret: config_private.GITHUB_SECRET,
+    loginURL: '/passport/github',
+    callbackURL: '/passport/github/callback',
+    successRedirect: '/passport/authCallbackSuccess',
+    failureRedirect: '/passport/authCallbackFail'
   };
 
   // weixin 鉴权
   config.passportAsiczWeixin = {
     clientID: config_private.WEIXIN_ID,
     clientSecret: config_private.WEIXIN_SECRET,
-    callbackURL: '/passport/weixin/callback'
+    loginURL: '/passport/weixin',
+    callbackURL: '/passport/weixin/callback',
+    successRedirect: '/passport/authCallbackSuccess',
+    failureRedirect: '/passport/authCallbackFail'
+  };
+
+  // dingtalk 鉴权
+  config.passportDingtalk = {
+    key: config_private.DINGTALK.DINGTALK_ID,
+    secret: config_private.DINGTALK.DINGTALK_SECRET,
+    loginURL: '/passport/dingtalk',
+    callbackURL: '/passport/dingtalk/callback',
+    successRedirect: '/passport/authCallbackSuccess',
+    failureRedirect: '/passport/authCallbackFail',
+    oauthPageConfig: {
+      title: config_private.DINGTALK.OAUTH_PAGE_CONFIG.TITLE,
+      logo: config_private.DINGTALK.OAUTH_PAGE_CONFIG.LOGO,
+      slogan: config_private.DINGTALK.OAUTH_PAGE_CONFIG.SLOGAN
+    }
   };
 
   // alinode 性能平台

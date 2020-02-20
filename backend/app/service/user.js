@@ -112,13 +112,19 @@ class UserService extends Service {
   // 根据 githubId 查找
   async findByGithubId(githubId) {
     const { app: { model: { User } } } = this;
-    return await User.findOne({ where: { github_id: githubId } });
+    return await User.findOne({ where: { githubId } });
   }
 
   // 根据 weixinId 查找
   async findByWeixinId(weixinId) {
     const { app: { model: { User } } } = this;
-    return await User.findOne({ where: { weixin_id: weixinId } });
+    return await User.findOne({ where: { weixinId } });
+  }
+
+  // 根据 githubId 查找
+  async findByDingtalkId(dingtalkId) {
+    const { app: { model: { User } } } = this;
+    return await User.findOne({ where: { dingtalkId } });
   }
 
   // 检查email

@@ -10,19 +10,20 @@ class PassportController extends Controller {
     const tokenPayload = {
       username: ctx.user.username,
       githubId: ctx.user.githubId,
-      weixinId: ctx.user.weixinId
+      weixinId: ctx.user.weixinId,
+      dingtalkId: ctx.user.dingtalkId
     }
     const token = await Jwt.sign(tokenPayload,
       app.config.myConfig.private.JWT_SECRET,
       { algorithm: 'HS256', expiresIn: '1m' }
     )
-    const url = `${app.config.myConfig.private.WEB_C_URL}/login/social?token=${token}`;
+    const url = `${app.config.myConfig.private.WEB_URL}/login/social?token=${token}`;
     return this.ctx.redirect(url);
   }
 
   async authCallbackFail() {
     const { app, ctx } = this
-    const url = `${app.config.myConfig.private.WEB_C_URL}/login`;
+    const url = `${app.config.myConfig.private.WEB_URL}/login`;
     return this.ctx.redirect(url);
   }
 }

@@ -38,6 +38,10 @@ module.exports = {
     enable: true,
     package: 'egg-passport-asicz-weixin',
   },
+  passportDingtalk: {
+    enable: true,
+    package: 'egg-passport-dingtalk',
+  },
   alinode: {
     enable: true,
     package: 'egg-alinode',
