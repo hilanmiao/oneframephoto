@@ -16,7 +16,7 @@ const config = {
     OAUTH_PAGE_CONFIG: {
       TITLE: '一帧照片',
       LOGO: 'https://avatars1.githubusercontent.com/u/27052900?s=460&v=4',
-      SLOGAN: 'Welcome to oneframephoto',
+      SLOGAN: '一帧照片，一个瞬间，一次回忆。',
     },
   },
   MYSQL: {

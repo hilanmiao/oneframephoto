@@ -121,7 +121,7 @@ class UserService extends Service {
     return await User.findOne({ where: { weixinId } });
   }
 
-  // 根据 githubId 查找
+  // 根据 dingtalkId 查找
   async findByDingtalkId(dingtalkId) {
     const { app: { model: { User } } } = this;
     return await User.findOne({ where: { dingtalkId } });
