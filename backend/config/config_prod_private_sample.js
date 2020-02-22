@@ -4,6 +4,7 @@
 const config = {
   SERVER_HOST: '127.0.0.1',
   SERVER_PORT: '7001',
+  DOMAIN: 'oneframephoto.com',
   WEB_URL: 'http://www.oneframephoto.com',
   JWT_SECRET: 'oneframephoto',
   GITHUB_ID: '',
@@ -26,10 +27,20 @@ const config = {
     PASSWORD: '',
     DATABASE: 'oneframephoto',
   },
+  REDIS: {
+    PORT: '6379',
+    HOST: '127.0.0.1',
+    PASSWORD: '',
+    DB: 0,
+  },
   ALINODE: {
     SERVER: 'wss://agentserver.node.aliyun.com:8080',
     APPID: '',
     SECRET: ''
+  },
+  SHORTURL: {
+    CACHE_MAX_AGE: 3600 * 24 * 7,
+    CACHE_PREFIX: 'dwz'
   }
 }
 

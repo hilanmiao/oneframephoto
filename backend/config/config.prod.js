@@ -87,6 +87,16 @@ module.exports = appInfo => {
     },
   };
 
+  // redis
+  config.redis = {
+    client: {
+      port: config_private.REDIS.PORT,
+      host: config_private.REDIS.HOST,
+      password: config_private.REDIS.PASSWORD,
+      db: config_private.REDIS.DB,
+    },
+  };
+
   // 模板配置
   config.view = {
     root: [

@@ -2,17 +2,21 @@
 
 /** @type Egg.EggPlugin */
 module.exports = {
-  mysql: {
-    enable: true,
-    package: 'egg-mysql',
-  },
   nunjucks: {
     enable: true,
     package: 'egg-view-nunjucks',
   },
+  mysql: {
+    enable: true,
+    package: 'egg-mysql',
+  },
   sequelize: {
     enable: true,
     package: 'egg-sequelize',
+  },
+  redis: {
+    enable: true,
+    package: 'egg-redis',
   },
   validate: {
     enable: true,

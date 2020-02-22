@@ -5,6 +5,7 @@ const Moment = require('moment');
 Moment.locale('zh-cn');
 const Jwt = require('jsonwebtoken');
 const Uuid = require('uuid')
+const shortid = require('shortid')
 
 const errorCode = {
   100: 'Continue',
@@ -127,6 +128,13 @@ module.exports = {
     return result;
   },
 
+  getShortidHash() {
+    return shortid.generate()
+  },
+
+  /**
+   * ================= 状态码封装 ↓ ==================
+   */
   // 成功
   success({ ctx, data = null }) {
     ctx.status = 200;
