@@ -184,7 +184,7 @@ export default {
   },
   methods: {
     getShortUrl() {
-      shortUrlService.postModel({ url: 'http://oneframephoto.com/?page=55&q=el-link&utf8=✓' })
+      shortUrlService.postModel({ url: 'http://localhost:9527/admin/login?redirect=%2Fstory%2Findex%2F' })
         .then(response => {
           this.shortUrl = response.data.shortUrl
         })

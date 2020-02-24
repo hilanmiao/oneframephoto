@@ -18,7 +18,8 @@ class ShortUrlController extends Controller {
   async short() {
     const { ctx, app, service } = this;
     const { url } = ctx.request.body;
-    ctx.validate(this.createRule);
+    // url 标准不是所有人都遵守，例如 ？前面要加 /
+    // ctx.validate(this.createRule);
     const payload = url
     let data = await service.shortUrl.short(payload);
     if (!data.hash) {
