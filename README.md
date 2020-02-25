@@ -4,7 +4,7 @@
   
 </p>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hilanmiao/bobcat/master/mindMap.png">
+  <img src="https://raw.githubusercontent.com/hilanmiao/oneframephoto/master/mindMap.png">
 </p>
 
 
