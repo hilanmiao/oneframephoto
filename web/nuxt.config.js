@@ -39,7 +39,8 @@ export default {
     { src: '~/plugins/vue-infinite-scroll.js', mode: 'client' },
     { src: '~/plugins/vue-infinite-loading.js', mode: 'client' },
     { src: '~/plugins/element-ui.js', mode: 'client' },
-    { src: '~/plugins/axios.js' }
+    { src: '~/plugins/axios.js' },
+    { src: '~/plugins/font-awesome5.js', mode: 'client' }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -59,8 +60,29 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     // 指定打包时使用的dotenv
-    ['@nuxtjs/dotenv', { path: '.env.production', filename: '.env.production' }]
+    ['@nuxtjs/dotenv', { path: '.env.production', filename: '.env.production' }],
+    'nuxt-fontawesome'
   ],
+  fontawesome: {
+    // See https://github.com/vaso2/nuxt-fontawesome
+    // 这里设置了组建的标签为fa
+    // 如果不设置，则默认为在font-awesome.js中，生成的：font-awesome-icon
+    component: 'fa',
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas']
+      },
+      {
+        set: '@fortawesome/free-regular-svg-icons',
+        icons: ['far']
+      },
+      {
+        set: '@fortawesome/free-brands-svg-icons',
+        icons: ['fab']
+      }
+    ]
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

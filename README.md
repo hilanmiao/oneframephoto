@@ -4,8 +4,9 @@
   
 </p>
 <p align="center">
- 
+  <img src="https://raw.githubusercontent.com/hilanmiao/bobcat/master/mindMap.png">
 </p>
+
 
 ## 概述
 

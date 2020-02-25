@@ -17,5 +17,5 @@ axios.interceptors.response.use(function (response) {
 // Initialize auth header
 // axios.defaults.headers.common.Authorization =
 //   'Bearer ' + store.state.auth.accessToken
-axios.defaults.headers.common.Authorization =
-  this.$store.state.auth.accessToken
+// axios.defaults.headers.common.Authorization =
+//   this.$store.state.auth.accessToken

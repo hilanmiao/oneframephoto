@@ -1,18 +1,77 @@
 <template>
   <section class="hero is-fullheight">
     <!-- Hero head: will stick at the top -->
-    <div class="hero-head">
-      <nav class="navbar is-fixed-top is-warning">
-        <div class="container">
-          <div class="navbar-brand">
-            <a class="navbar-item has-text-white">
-              <img src="~assets/image/logo.png" alt="">
-              一帧照片
-            </a>
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="">
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="搜索">
+              <span class="icon is-small is-left">
+                <font-awesome-icon :icon="['fas', 'search']" />
+              </span>
+            </div>
           </div>
         </div>
-      </nav>
-    </div>
+
+        <div class="navbar-end">
+          <a class="navbar-item">
+            <strong>主页</strong>
+          </a>
+          <a class="navbar-item">
+            <strong>关注</strong>
+          </a>
+
+          <div class="split">
+            <div class="navbar-item" />
+            <div class="navbar-item" />
+          </div>
+
+          <a class="navbar-item">
+            <font-awesome-icon :icon="['fas', 'comment-dots']" class="fa-lg" />
+          </a>
+          <a class="navbar-item">
+            <font-awesome-icon :icon="['fas', 'bell']" class="fa-lg" />
+          </a>
+
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-arrowless">
+              <font-awesome-icon :icon="['fas', 'ellipsis-h']" class="fa-lg" />
+            </a>
+            <div class="navbar-dropdown is-right is-boxed">
+              <a class="navbar-item">
+                编辑设置
+              </a>
+              <a class="navbar-item">
+                查看服务条款和隐私政策
+              </a>
+              <a class="navbar-item">
+                帮助中心
+              </a>
+              <a class="navbar-item">
+                关于我们
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item">
+                退出
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
@@ -85,7 +144,7 @@ export default {
     }
   },
   mounted () {
-    this.loadMore()
+    // this.loadMore()
     window.addEventListener('scroll', this.handleScroll, true)
   },
   destroyed () {
@@ -131,7 +190,45 @@ export default {
 <style lang="scss" scoped>
   .hero {
     .navbar {
-      background-color: #ffdd57;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 0 0 #f5f5f5;
+      .navbar-menu {
+        justify-content: space-between;
+        .navbar-start {
+          flex: 1;
+          .navbar-item {
+            flex: 1;
+            .control {
+              flex: 1;
+              margin-left: 16px;
+              margin-right: 16px;
+              background: #efefef;
+              border-radius: 6px;
+              .icon {
+                color: #8e8e8e;
+              }
+              .input:focus ~ .icon {
+                color: #4a4a4a;
+              }
+              input {
+                background: transparent;
+                border-radius: 6px;
+              }
+              input::placeholder {
+                color: #8e8e8e;
+              }
+            }
+          }
+        }
+        .navbar-end {
+          .split {
+            display: flex;
+            :first-child {
+              border-right: 2px solid #efefef;
+            }
+          }
+        }
+      }
     }
     .hero-body {
       .image-container {
