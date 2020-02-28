@@ -22,7 +22,7 @@
           </nuxt-link>
         </div>
 
-        详情
+        关注
       </div>
     </div>
 
