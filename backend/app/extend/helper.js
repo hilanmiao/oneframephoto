@@ -128,6 +128,7 @@ module.exports = {
     return result;
   },
 
+  // 生成 shortid hash
   getShortidHash() {
     return shortid.generate()
   },

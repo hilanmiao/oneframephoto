@@ -95,124 +95,16 @@
     <div class="hero-body">
       <!--      <div class="container is-fluid">-->
       <div class="container">
-        <waterfall
-          ref="waterfall"
-          :line-gap="200"
-          :watch="list"
-          :grow="grow"
-          @reflowed="reflowed"
-        >
-          <!-- each component is wrapped by a waterfall slot -->
-          <waterfall-slot
-            v-for="(item, index) in list"
-            :key="index"
-            :width="item.photoWidth"
-            :height="item.photoHeight"
-            :order="index"
-          >
-            <div class="photo-container">
-              <figure class="figure-photo">
-                <nuxt-link to="/story">
-                <img class="photo" :src="item.photo" :alt="item.title">
-
-                <figcaption class="figcation-photo">
-                  <div class="columns">
-                    <div class="column is-haf">
-                      <a href="">
-                        <div class="user">
-                          <figure class="image is-32x32 figure-avatar">
-                            <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
-                          </figure>
-                          <span class="name">张国栋</span>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="column is-haf">
-                      <div>
-                        <button class="button is-danger is-rounded">
-                          收藏
-                        </button>
-                      </div>
-                      <div class="download-wrapper">
-                        <button class="button is-rounded">
-                          <font-awesome-icon :icon="['fas', 'download']" class="has-text-black" />
-                        </button>
-                        <button class="button is-rounded">
-                          <font-awesome-icon :icon="['fas', 'share']" class="has-text-black" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </figcaption>
-                </nuxt-link>
-              </figure>
-            </div>
-          </waterfall-slot>
-        </waterfall>
-        <div class="footer-tip-wrapper">
-          <div v-show="isBusy && !noMore" class="loading">
-            <span class="icon">
-              <font-awesome-icon :icon="['fas', 'spinner']" pulse class="fa-2x" />
-            </span>
-          </div>
-          <div v-show="noMore" class="no-more">
-            <svg
-              height="32"
-              width="32"
-              viewBox="0 0 24 24"
-              aria-label="Pinterest 图标"
-              role="img"
-            >
-              <path
-                d="M0 12c0 5.123 3.211 9.497 7.73 11.218-.11-.937-.227-2.482.025-3.566.217-.932 1.401-5.938 1.401-5.938s-.357-.715-.357-1.774c0-1.66.962-2.9 2.161-2.9 1.02 0 1.512.765 1.512 1.682 0 1.025-.653 2.557-.99 3.978-.281 1.189.597 2.159 1.769 2.159 2.123 0 3.756-2.239 3.756-5.471 0-2.861-2.056-4.86-4.991-4.86-3.398 0-5.393 2.549-5.393 5.184 0 1.027.395 2.127.889 2.726a.36.36 0 0 1 .083.343c-.091.378-.293 1.189-.332 1.355-.053.218-.173.265-.4.159-1.492-.694-2.424-2.875-2.424-4.627 0-3.769 2.737-7.229 7.892-7.229 4.144 0 7.365 2.953 7.365 6.899 0 4.117-2.595 7.431-6.199 7.431-1.211 0-2.348-.63-2.738-1.373 0 0-.599 2.282-.744 2.84-.282 1.084-1.064 2.456-1.549 3.235C9.584 23.815 10.77 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12"
-              />
-            </svg>
-          </div>
-        </div>
+        a
       </div>
     </div>
-
-    <footer class="footer animated fadeInUp delay-2s">
-      <div class="footer-button-wrapper">
-        <div class="footer-button">
-          <svg
-            class="gUZ pBj U9O kVc"
-            height="16"
-            width="16"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            aria-label=""
-            role="img"
-          ><path d="M22 10h-8V2a2 2 0 0 0-4 0v8H2a2 2 0 0 0 0 4h8v8a2 2 0 0 0 4 0v-8h8a2 2 0 0 0 0-4" /></svg>
-        </div>
-      </div>
-
-      <div class="footer-button-wrapper">
-        <div class="footer-button">
-          <svg
-            class="gUZ pBj U9O kVc"
-            height="16"
-            width="16"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            aria-label=""
-            role="img"
-          ><path d="M14.34 21.2c0 1.57-1.19 2.8-2.78 2.8-1.58 0-2.77-1.23-2.77-2.8 0-1.57 1.19-2.8 2.77-2.8 1.59 0 2.78 1.23 2.78 2.8m-2.53-10.88c1.41-1.23 3.3-2.05 3.3-3.87 0-1.45-1.24-2.36-2.95-2.36-2.12 0-3.52 1.48-3.55 3.43H3.75C3.88 3.3 6.96 0 12.34 0c4.86 0 7.91 2.52 7.91 6.32 0 2.36-1.09 3.81-2.3 4.78-1.68 1.33-2.84 1.89-3.49 2.61-.5.57-.62 1.04-.65 1.95H9.45c0-2.64.65-3.9 2.36-5.34" /></svg>
-        </div>
-      </div>
-    </footer>
   </section>
 </template>
 
 <script>
-import axios from 'axios'
-import Waterfall from '~/components/vue-waterfall/waterfall'
-import WaterfallSlot from '~/components/vue-waterfall/waterfall-slot'
 
 export default {
   components: {
-    Waterfall,
-    WaterfallSlot
   },
   async asyncData () {
     // const serverUrl = process.env.SERVER_URL
@@ -233,45 +125,13 @@ export default {
     }
   },
   mounted () {
-    this.loadMore()
-    window.addEventListener('scroll', this.handleScroll, true)
+
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll)
+
   },
   methods: {
-    handleScroll (e) {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > this.lastScrollTop) {
-        // 表示向下滚动
-        this.lastScrollTop = scrollTop
-        // 图片容器bottom：16px，底部nomore提示 height: 64px
-        if (!this.noMore && scrollTop + window.innerHeight + 16 + 64 >= document.body.clientHeight) {
-          this.loadMore()
-        }
-      }
-    },
-    async loadMore () {
-      if (!this.isBusy) {
-        this.isBusy = true
-        this.listQuery.page += 1
-        const { data } = await this._getList(this.listQuery)
-        if (data.rows.length) {
-          this.list.push(...data.rows)
-        } else {
-          this.isBusy = false
-          this.noMore = true
-        }
-      }
-    },
 
-    reflowed () {
-      this.isBusy = false
-    },
-
-    _getList (params) {
-      return axios.get('http://localhost:7001/api/common/story', { params })
-    }
   }
 }
 </script>
