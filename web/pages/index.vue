@@ -1,7 +1,7 @@
 <template>
   <section class="hero is-fullheight-with-navbar">
     <!-- Hero head: will stick at the top -->
-    <Navbar></Navbar>
+    <Navbar />
 
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
@@ -25,37 +25,37 @@
             <div class="photo-container">
               <figure class="figure-photo">
                 <nuxt-link to="/story">
-                <img class="photo" :src="item.photo" :alt="item.title">
+                  <img class="photo" :src="item.photo" :alt="item.title">
 
-                <figcaption class="figcation-photo">
-                  <div class="columns">
-                    <div class="column is-haf">
-                      <a href="">
-                        <div class="user">
-                          <figure class="image is-32x32 figure-avatar">
-                            <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
-                          </figure>
-                          <span class="name">张国栋</span>
+                  <figcaption class="figcation-photo">
+                    <div class="columns">
+                      <div class="column is-haf">
+                        <nuxt-link to="/">
+                          <div class="user">
+                            <figure class="image is-32x32 figure-avatar">
+                              <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
+                            </figure>
+                            <span class="name">张国栋</span>
+                          </div>
+                        </nuxt-link>
+                      </div>
+                      <div class="column is-haf">
+                        <div>
+                          <button class="button is-danger is-rounded">
+                            收藏
+                          </button>
                         </div>
-                      </a>
-                    </div>
-                    <div class="column is-haf">
-                      <div>
-                        <button class="button is-danger is-rounded">
-                          收藏
-                        </button>
-                      </div>
-                      <div class="download-wrapper">
-                        <button class="button is-rounded">
-                          <font-awesome-icon :icon="['fas', 'download']" class="has-text-black" />
-                        </button>
-                        <button class="button is-rounded">
-                          <font-awesome-icon :icon="['fas', 'share']" class="has-text-black" />
-                        </button>
+                        <div class="download-wrapper">
+                          <button class="button is-rounded">
+                            <font-awesome-icon :icon="['fas', 'download']" class="has-text-black" />
+                          </button>
+                          <button class="button is-rounded">
+                            <font-awesome-icon :icon="['fas', 'share']" class="has-text-black" />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </figcaption>
+                  </figcaption>
                 </nuxt-link>
               </figure>
             </div>
@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <footer-buttons></footer-buttons>
+    <footer-buttons />
   </section>
 </template>
 

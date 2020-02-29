@@ -109,6 +109,9 @@
       padding: 4px 12px;
       box-shadow: 0 2px 0 0 #f5f5f5;
       background: #ffffff;
+      .navbar-brand {
+        padding-right: 12px;
+      }
 
       .navbar-menu {
         justify-content: space-between;
