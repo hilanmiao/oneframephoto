@@ -41,7 +41,7 @@
                       </div>
                       <div class="column is-haf">
                         <div>
-                          <button class="button is-danger is-rounded">
+                          <button class="button is-danger">
                             收藏
                           </button>
                         </div>

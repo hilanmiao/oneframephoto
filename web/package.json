@@ -26,6 +26,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.0.0-0",
     "animate.css": "^3.7.2",
+    "bulma-extensions": "^6.2.7",
     "element-ui": "^2.13.0",
     "lodash": "^4.17.15",
     "nuxt": "^2.11.0",
