@@ -29,7 +29,8 @@ export default {
   css: [
     '~assets/css/debug.scss',
     'swiper/dist/css/swiper.css',
-    'animate.css/animate.min.css'
+    'animate.css/animate.min.css',
+    'bulma-extensions/dist/css/bulma-extensions.min.css'
   ],
   /*
   ** Plugins to load before mounting the App
