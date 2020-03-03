@@ -27,7 +27,7 @@
             </figure>
           </div>
           <div class="card-content">
-            <div class="media">
+            <div class="media operate-wrapper">
               <div class="media-left">
                 <figure class="image is-48x48">
                   <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
@@ -43,7 +43,7 @@
                       <span class="icon">
                         <font-awesome-icon :icon="['fas', 'plus']" />
                       </span>
-                      <span>
+                      <span class="has-text-weight-bold">
                         关注
                       </span>
                     </button>
@@ -51,29 +51,40 @@
                 </div>
               </div>
               <div class="media-right">
-                <button class="button is-rounded zan-button">
-                  <span class="icon">
-                    <font-awesome-icon :icon="['fas', 'thumbs-up']" class="has-text-black" />
-                  </span>
-                </button>
-                <button class="button is-rounded">
-                  <span class="icon">
-                    <font-awesome-icon :icon="['fas', 'download']" class="has-text-black" />
-                  </span>
-                </button>
-                <button class="button is-rounded">
-                  <span class="icon">
-                    <font-awesome-icon :icon="['fas', 'share']" class="has-text-black" />
-                  </span>
-                </button>
-                <button class="button is-danger is-rounded">
-                  <span class="icon">
-                    <font-awesome-icon :icon="['fas', 'thumbtack']" />
-                  </span>
-                  <span>
-                    收藏
-                  </span>
-                </button>
+                <nav class="level">
+                  <div class="level-item zan">
+                    <button class="button is-rounded zan-button">
+                      <span class="icon">
+                        <font-awesome-icon :icon="['fas', 'thumbs-up']" class="fa-lg" />
+                      </span>
+                    </button>
+                    <span class="has-text-grey has-text-weight-bold">1234</span>
+                  </div>
+                  <div class="level-item">
+                    <button class="button is-rounded">
+                      <span class="icon">
+                        <font-awesome-icon :icon="['fas', 'download']" class="fa-lg" />
+                      </span>
+                    </button>
+                  </div>
+                  <div class="level-item">
+                    <button class="button is-rounded">
+                      <span class="icon">
+                        <font-awesome-icon :icon="['fas', 'share']" class="fa-lg" />
+                      </span>
+                    </button>
+                  </div>
+                  <div class="level-item collect">
+                    <button class="button is-danger is-rounded">
+                      <span class="icon">
+                        <font-awesome-icon :icon="['fas', 'thumbtack']" />
+                      </span>
+                      <span>
+                        收藏
+                      </span>
+                    </button>
+                  </div>
+                </nav>
               </div>
             </div>
 
@@ -242,6 +253,8 @@ export default {
     if (process.client) {
       const mojs = require('@mojs/core')
       const el3 = document.querySelector('button.zan-button')
+      const el3span = el3.querySelector('span')
+      const el3spansvg = el3span.querySelector('svg')
       const circle = new mojs.Shape({
         parent: el3,
         stroke: { '#E5214A': '#CC8EF5' },
@@ -264,23 +277,7 @@ export default {
           fill: [
             // { '#91D2FA' : '#BDEFD8' },
             // { '#91D2FA' : '#ADD6CA' },
-            { '#9EC9F5': '#9ED8C6' },
-            { '#91D3F7': '#9AE4CF' },
-
-            { '#DC93CF': '#E3D36B' },
-            { '#CF8EEF': '#CBEB98' },
-
-            { '#87E9C6': '#1FCC93' },
-            { '#A7ECD0': '#9AE4CF' },
-
-            { '#87E9C6': '#A635D9' },
-            { '#D58EB3': '#E0B6F5' },
-
-            { '#F48BA2': '#CF8EEF' },
-            { '#91D3F7': '#A635D9' },
-
-            { '#CF8EEF': '#CBEB98' },
-            { '#87E9C6': '#A635D9' }
+            'deeppink', 'cyan', 'yellow'
           ],
           scale: { 1: 0, easing: 'quad.in' },
           pathScale: [0.8, null],
@@ -291,9 +288,27 @@ export default {
         }
       })
 
+      const opacityCurve11 = mojs.easing.path('M0,0 C0,87 27,100 40,100 L40,0 L100,0')
+      const scaleCurve11 = mojs.easing.path('M0,0c0,80,39.2,100,39.2,100L40-100c0,0-0.7,106,60,106')
+      const tween = new mojs.Tween({
+        duration: 1300,
+        easing: mojs.easing.ease.out,
+        onUpdate (progress) {
+          const opacityProgress = opacityCurve11(progress)
+          el3span.style.opacity = opacityProgress
+
+          const scaleProgress = scaleCurve11(progress)
+          el3span.style.WebkitTransform = el3span.style.transform = 'scale3d(' + scaleProgress + ',' + scaleProgress + ',1)'
+
+          const colorProgress = opacityCurve11(progress)
+          el3spansvg.style.color = colorProgress >= 1 ? '#e60023' : '#C0C1C3'
+        }
+      })
+
       el3.addEventListener('click', function (e) {
         burst.replay()
         circle.replay()
+        tween.replay()
       })
     }
   },
@@ -334,26 +349,51 @@ export default {
         max-width: 960px;
 
         .card-content {
-          .media:first-child {
+          .operate-wrapper {
             align-items: center;
             .media-right {
-              .button:not(:last-of-type) {
-                padding: 0;
-                min-height: 44px;
-                min-width: 44px;
-                border: none;
+              .level-item:not(:last-child) {
+                padding-left: 8px;
+
+                .button {
+                  padding: 0;
+                  min-height: 44px;
+                  min-width: 44px;
+                  border: none;
+                }
+
+                .button:hover {
+                  background-color: rgba(0,0,0,.06);
+                }
               }
 
-              .button:hover:not(:last-of-type) {
-                background-color: rgba(0,0,0,.06);
+              .level-item.zan {
+                .button span {
+                  margin: 0
+                }
+
+                .button:hover {
+                  background-color: transparent !important;
+                }
+
+                .button:focus {
+                  box-shadow: none;
+                }
+
+                .button svg {
+                  color: #7a7a7a;
+                }
               }
 
-              .button:last-of-type {
-                background-color: #e60023;
-              }
+              .level-item.collect {
+                padding-left: 20px;
+                .button {
+                  background-color: #e60023;
+                }
 
-              .button:last-of-type:hover {
-                background-color: #ad081b;
+                .button:hover {
+                  background-color: #ad081b;
+                }
               }
             }
           }
