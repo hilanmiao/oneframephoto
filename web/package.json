@@ -21,6 +21,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@mojs/core": "^0.288.2",
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/bulma": "^1.2.6",
     "@nuxtjs/dotenv": "^1.4.1",

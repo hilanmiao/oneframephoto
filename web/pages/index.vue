@@ -121,6 +121,9 @@ export default {
     }
   },
   mounted () {
+    // TODO: [Vue warn]: The client-side rendered virtual DOM tree is not matching server-rendered content. This is likely caused by incorrect HTML markup, for example nesting block-level elements inside <p>, or missing <tbody>. Bailing hydration and performing full client-side render.
+    // 检查客户端其他生命周期钩子是否影响到页面数据的显示，比如用到一些关于数据的v-if等等
+    // 放到async data里
     this.loadMore()
     window.addEventListener('scroll', this.handleScroll, true)
   },
