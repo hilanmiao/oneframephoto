@@ -191,6 +191,10 @@ export default {
             right: 8px;
             bottom: 16px;
 
+            > a {
+              cursor: zoom-in;
+            }
+
             .photo {
               display: block;
               transition: opacity 1s, transform 1s;

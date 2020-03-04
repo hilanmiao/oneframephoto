@@ -83,16 +83,13 @@
           </button>
           <div class="navbar-dropdown is-right is-boxed">
             <a class="navbar-item">
+              调整你的主页
+            </a>
+            <a class="navbar-item">
               编辑设置
             </a>
             <a class="navbar-item">
-              查看服务条款和隐私政策
-            </a>
-            <a class="navbar-item">
-              帮助中心
-            </a>
-            <a class="navbar-item">
-              关于我们
+              需要帮助
             </a>
             <hr class="navbar-divider">
             <a class="navbar-item">
