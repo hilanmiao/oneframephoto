@@ -84,10 +84,14 @@
             :show-file-list="false"
             :on-success="handlePhotoUploadSuccess"
             :on-error="handlePhotoUploadError"
+            :on-progress="handlePhotoUploadProgress"
             :http-request="uploadPhoto"
           >
             <img v-if="temp.photo" :src="temp.photo" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
+            <div v-show="photoProgressPercent !== 0" class="progress-wrapper">
+              <el-progress type="circle" :percentage="photoProgressPercent" />
+            </div>
           </el-upload>
         </el-form-item>
         <el-form-item label="内容" prop="content">
@@ -152,7 +156,8 @@ export default {
         photo: [{ required: true, message: '必填', trigger: 'blur' }],
         introduction: [{ required: true, message: '必填', trigger: 'blur' }],
         content: [{ required: true, message: '必填', trigger: 'blur' }]
-      }
+      },
+      photoProgressPercent: 0
     }
   },
 
@@ -242,8 +247,20 @@ export default {
         return
       }
       console.log(content)
-      fileService.uploadPhoto(content.file.name, content.file).then(response => {
+      fileService.uploadPhoto(content.file.name, content.file, {
+        // axios 上传进度事件
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+          console.log(percentCompleted)
+          // 更新element upload progress
+          content.onProgress({ percent: percentCompleted })
+          this.photoProgressPercent = percentCompleted
+        }
+      }).then(response => {
         content.onSuccess(response)
+        setTimeout(() => {
+          this.photoProgressPercent = 0
+        }, 1000)
       }).catch(error => {
         content.onError(error)
       })
@@ -258,6 +275,9 @@ export default {
         message: '上传失败',
         type: 'error'
       })
+    },
+    handlePhotoUploadProgress(event, file, fileList) {
+      console.log(event, file)
     },
     handleCreate() {
       this.resetTemp()
@@ -419,6 +439,26 @@ export default {
       width: 178px;
       height: 178px;
       display: block;
+    }
+
+    .el-upload {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .el-upload .progress-wrapper {
+      width: 100%;
+      position: absolute;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .el-progress {
+      position: absolute;
     }
   }
 </style>

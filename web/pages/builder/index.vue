@@ -22,6 +22,7 @@
                 <div class="tip has-text-grey-light has-text-centered is-block subtitle">
                   建议：使用小于 30MB 的高质量 .jpg 文件
                 </div>
+                <el-progress type="circle" :percentage="coverProgressPercent" v-show="coverProgressPercent !== 0"/>
               </template>
             </el-upload>
           </figure>
@@ -51,7 +52,8 @@ export default {
   },
   data () {
     return {
-      imageUrl: ''
+      imageUrl: '',
+      coverProgressPercent: 0
     }
   },
   mounted () {
@@ -97,15 +99,6 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
   .page-builder {
-    .avatar-uploader {
-      height: 100%;
-      width: 100%;
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
     .avatar-uploader .el-upload {
       border: 1px dashed #d9d9d9;
       border-radius: 6px;
@@ -132,6 +125,26 @@ export default {
 
     .avatar {
       display: block;
+    }
+
+    .avatar-uploader {
+      height: 100%;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    .el-upload {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .el-progress {
+      position: absolute;
     }
 
     .el-upload .tip {
