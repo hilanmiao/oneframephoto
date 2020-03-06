@@ -5,20 +5,7 @@
 
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
-      <div class="back-wrapper">
-        <nuxt-link to="/">
-          <button class="button is-rounded">
-            <svg
-              class="gUZ pBj"
-              height="20"
-              width="20"
-              viewBox="0 0 24 24"
-              aria-label="返回键"
-              role="img"
-            ><path d="M24 12a2 2 0 0 1-2 2H7.676l4.631 4.586a2 2 0 1 1-2.829 2.828L0 12l9.478-9.414a2 2 0 0 1 2.829 2.828L7.676 10H22a2 2 0 0 1 2 2" /></svg>
-          </button>
-        </nuxt-link>
-      </div>
+      <BackHome />
       <div class="container">
         <div class="card">
           <div class="card-image">
@@ -222,11 +209,13 @@
 <script>
 import Navbar from '~/components/Navbar'
 import FooterButtons from '~/components/FooterButtons'
+import BackHome from '~/components/BackHome'
 
 export default {
   components: {
     Navbar,
-    FooterButtons
+    FooterButtons,
+    BackHome
   },
   async asyncData () {
     // const serverUrl = process.env.SERVER_URL

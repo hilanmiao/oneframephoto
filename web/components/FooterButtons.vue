@@ -1,7 +1,7 @@
 <template>
   <footer class="footer animated fadeInUp delay-2s">
     <div class="footer-button-wrapper">
-      <nuxt-link to="/story">
+      <nuxt-link to="/builder">
         <div class="footer-button">
           <svg
             height="16"
@@ -15,7 +15,7 @@
       </nuxt-link>
     </div>
 
-    <div class="dropdown is-up is-right is-hoverable is-active">
+    <div class="dropdown is-up is-right is-hoverable">
       <div class="dropdown-trigger">
         <div class="footer-button-wrapper" aria-haspopup="true" aria-controls="dropdown-menu">
           <div class="footer-button">
@@ -32,7 +32,7 @@
       </div>
       <div id="dropdown-menu" class="dropdown-menu" role="menu">
         <div class="dropdown-content">
-          <nuxt-link to="/" class="is-size-6 has-text-weight-bold dropdown-item">
+          <nuxt-link to="/help" class="is-size-6 has-text-weight-bold dropdown-item">
             访问帮助中心
           </nuxt-link>
           <hr class="dropdown-divider">

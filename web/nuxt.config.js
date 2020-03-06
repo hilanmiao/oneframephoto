@@ -30,7 +30,8 @@ export default {
     '~assets/css/debug.scss',
     'swiper/dist/css/swiper.css',
     'animate.css/animate.min.css',
-    'bulma-extensions/dist/css/bulma-extensions.min.css'
+    'bulma-extensions/dist/css/bulma-extensions.min.css',
+    'element-ui/lib/theme-chalk/index.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -39,10 +40,10 @@ export default {
     { src: '~/plugins/vue-awesome-swiper.js', mode: 'client' },
     { src: '~/plugins/vue-waterfall.js', mode: 'client' },
     { src: '~/plugins/vue-infinite-scroll.js', mode: 'client' },
-    { src: '~/plugins/vue-infinite-loading.js', mode: 'client' },
-    { src: '~/plugins/element-ui.js', mode: 'client' },
+    { src: '~/plugins/vue-infinite-loading.js' },
+    { src: '~/plugins/element-ui.js' },
     { src: '~/plugins/axios.js' },
-    { src: '~/plugins/font-awesome5.js', mode: 'client' }
+    { src: '~/plugins/font-awesome5.js' }
   ],
   /*
   ** Nuxt.js dev-modules
