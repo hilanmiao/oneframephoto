@@ -31,7 +31,10 @@ export default {
     'swiper/dist/css/swiper.css',
     'animate.css/animate.min.css',
     'bulma-extensions/dist/css/bulma-extensions.min.css',
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    'quill/dist/quill.snow.css',
+    'quill/dist/quill.bubble.css',
+    'quill/dist/quill.core.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -43,7 +46,8 @@ export default {
     { src: '~/plugins/vue-infinite-loading.js' },
     { src: '~/plugins/element-ui.js' },
     { src: '~/plugins/axios.js' },
-    { src: '~/plugins/font-awesome5.js' }
+    { src: '~/plugins/font-awesome5.js' },
+    { src: '~/plugins/vue-quill-editor.js', mode: 'client' }
   ],
   /*
   ** Nuxt.js dev-modules
