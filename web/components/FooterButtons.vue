@@ -32,7 +32,7 @@
       </div>
       <div id="dropdown-menu" class="dropdown-menu" role="menu">
         <div class="dropdown-content">
-          <nuxt-link to="/help" class="is-size-6 has-text-weight-bold dropdown-item">
+          <nuxt-link target="_blank" to="/help" class="is-size-6 has-text-weight-bold dropdown-item">
             访问帮助中心
           </nuxt-link>
           <hr class="dropdown-divider">
