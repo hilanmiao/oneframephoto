@@ -25,15 +25,13 @@
           </div>
           <div id="navbarMenuHeroC" class="navbar-menu">
             <div class="navbar-end">
-              <a class="navbar-item is-active">
-                Home
-              </a>
-              <a class="navbar-item">
-                Examples
-              </a>
-              <a class="navbar-item">
-                Documentation
-              </a>
+              <span class="navbar-item">
+                <button class="button is-white">
+                  <span class="icon">
+                    <font-awesome-icon :icon="['fab', 'github-alt']" class="fa-lg" />
+                  </span>
+                </button>
+              </span>
               <span class="navbar-item sponsor">
                 <button class="button is-danger">
                   <span class="icon">
@@ -44,13 +42,10 @@
                   </span>
                 </button>
               </span>
-              <span class="navbar-item">
-                <button class="button is-white">
-                  <span class="icon">
-                    <font-awesome-icon :icon="['fab', 'github-alt']" class="fa-lg" />
-                  </span>
-                </button>
-              </span>
+              <span class="navbar-item" />
+              <a class="navbar-item has-text-weight-bold">
+                Oneframephoto 首页
+              </a>
             </div>
           </div>
         </div>
@@ -62,39 +57,99 @@
       <div class="container is-flex">
         <aside class="menu">
           <p class="menu-label">
-            General
+            其他
           </p>
           <ul class="menu-list">
-            <li><a>Dashboard</a></li>
-            <li><a>Customers</a></li>
+            <li><a :class="{'is-active': active === '1'}" @click="active = '1'">意见反馈</a></li>
           </ul>
           <p class="menu-label">
-            Administration
+            常见问题
           </p>
           <ul class="menu-list">
-            <li><a>Team Settings</a></li>
             <li>
-              <a class="is-active">Manage Your Team</a>
+              <a :class="{'is-active': active === '2'}" @click="active = '2'">登入和登出</a>
+            </li>
+            <li>
+              <a>编辑设定</a>
               <ul>
-                <li><a>Members</a></li>
-                <li><a>Plugins</a></li>
-                <li><a>Add a member</a></li>
+                <li><a>使用Github账号登入</a></li>
+                <li><a>变更密码</a></li>
+                <li><a>编辑个人档案</a></li>
               </ul>
             </li>
-            <li><a>Invitations</a></li>
-            <li><a>Cloud Storage Environment Settings</a></li>
-            <li><a>Authentication</a></li>
-          </ul>
-          <p class="menu-label">
-            Transactions
-          </p>
-          <ul class="menu-list">
-            <li><a>Payments</a></li>
-            <li><a>Transfers</a></li>
-            <li><a>Balance</a></li>
+            <li><a>保护账号安全</a></li>
           </ul>
         </aside>
-        <div>asdfads</div>
+        <div class="content">
+          <div v-show="active === '1'" class="animated fadeIn slow">
+            <ol type="1">
+              <li>
+                <div class="is-size-5">
+                  按一下 Pinterest 頂端的 來開啟選單
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「編輯設定」
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「帳號設定」
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  輸入您的舊密碼，然後輸入新密碼兩次
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「變更密碼」
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「完成」
+                </div>
+              </li>
+            </ol>
+          </div>
+          <div v-show="active === '2'" class="animated fadeIn slow">
+            <ol type="1">
+              <li>
+                <div class="is-size-5">
+                  按一下 Pinterest 頂端的 來開啟選單
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「編輯設定」
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「帳號設定」
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  輸入您的舊密碼，然後輸入新密碼兩次
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「變更密碼」
+                </div>
+              </li>
+              <li>
+                <div class="is-size-5">
+                  按一下「完成」
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -228,7 +283,7 @@ export default {
   },
   data () {
     return {
-
+      active: '1'
     }
   },
   mounted () {
@@ -244,22 +299,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .hero-head {
+    .navbar {
+      box-shadow: 0 2px 0 0 #f5f5f5;
+      background: #ffffff;
 
-  .navbar {
-    box-shadow: 0 2px 0 0 #f5f5f5;
-    background: #ffffff;
-    .brand-name {
-      color: #e60023;
+      .brand-name {
+        color: #e60023;
+      }
+
+      .sponsor {
+        .button {
+          background-color: #e60023;
+        }
+
+        .button:hover {
+          background-color: #ad081b;
+        }
+      }
+    }
+  }
+
+  .hero-body {
+    .menu {
+      .menu-list {
+        a.is-active {
+          background-color: #e60023;
+        }
+      }
     }
 
-    .sponsor {
-      .button {
-        background-color: #e60023;
-      }
-
-      .button:hover {
-        background-color: #ad081b;
-      }
+    .content {
+      padding: 15px 15px 15px 50px;
     }
   }
 
