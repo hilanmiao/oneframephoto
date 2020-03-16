@@ -102,7 +102,7 @@
 
     .dropdown {
       .dropdown-menu {
-        right: 60px;
+        right: 50px;
         bottom: 0;
 
         .dropdown-item {

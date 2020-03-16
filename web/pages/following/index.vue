@@ -164,24 +164,49 @@
 
     <footer-buttons />
 
-    <div class="modal" :class="{'is-active' : followingModalShow}">
+    <div class="modal following-users" :class="{'is-active' : followingModalShow}">
       <div class="modal-background" />
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">
-            Modal title
+            创建你的关注页面
           </p>
           <button class="delete" aria-label="close" />
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
+          <div class="columns">
+            <div class="column is-half">
+              <el-card shadow="hover" :body-style="{ padding: '10px' }">
+                <div class="image">
+                  <div class="avatar">
+                    <figure class="image">
+                      <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
+                    </figure>
+                  </div>
+                  <div class="photo">
+                    <div>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </div>
+                    <div>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </div>
+                    <div>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </div>
+                  </div>
+                </div>
+              </el-card>
+            </div>
+            <div class="column is-half"></div>
+          </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success">
-            Save changes
+          <button class="button is-danger">
+            完成
           </button>
           <button class="button" @click="followingModalShow = false">
-            Cancel
+            返回
           </button>
         </footer>
       </div>
@@ -499,6 +524,38 @@ export default {
             svg {
               color: #8e8e8e;
               fill: currentColor;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .modal.following-users {
+    .modal-card {
+      width: 900px;
+      .el-card {
+        .el-card__body {
+          .image {
+            display: flex;
+            .avatar {
+              width: 100px;
+              height: 100px;
+              border: 2px solid white;
+              border-radius: 50%;
+              position: absolute;
+            }
+
+            .photo {
+              display: flex;
+              justify-content: flex-end;
+              flex: 1 1 auto;
+
+              img {
+                height: 100px;
+                width: 100px;
+                max-width: unset;
+              }
             }
           }
         }
