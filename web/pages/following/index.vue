@@ -175,30 +175,111 @@
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
-          <div class="columns">
+          <div class="columns is-multiline">
             <div class="column is-half">
               <el-card shadow="hover" :body-style="{ padding: '10px' }">
-                <div class="image">
+                <div class="user-wrapper">
+                <div class="user-images">
                   <div class="avatar">
                     <figure class="image">
                       <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
                     </figure>
                   </div>
                   <div class="photo">
-                    <div>
+                    <figure>
                       <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </div>
-                    <div>
+                    </figure>
+                    <figure>
                       <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </div>
-                    <div>
+                    </figure>
+                    <figure>
                       <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </div>
+                    </figure>
+                  </div>
+                </div>
+                <div class="user-info level">
+                  <div class="level-left">
+                    asdda
+                  </div>
+                  <div class="level-right">
+                    <button class="button is-danger is-rounded">
+                      <span>
+                        关注
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                </div>
+              </el-card>
+            </div>
+            <div class="column is-half">
+              <el-card shadow="hover" :body-style="{ padding: '10px' }">
+                <div class="user-images">
+                  <div class="avatar">
+                    <figure class="image">
+                      <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
+                    </figure>
+                  </div>
+                  <div class="photo">
+                    <figure>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </figure>
+                    <figure>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </figure>
+                    <figure>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </figure>
+                  </div>
+                </div>
+                <div class="user-info level">
+                  <div class="level-left">
+                    asdda
+                  </div>
+                  <div class="level-right">
+                    <button class="button is-danger is-rounded">
+                      <span>
+                        关注
+                      </span>
+                    </button>
                   </div>
                 </div>
               </el-card>
             </div>
-            <div class="column is-half"></div>
+            <div class="column is-half">
+              <el-card shadow="hover" :body-style="{ padding: '10px' }">
+                <div class="user-images">
+                  <div class="avatar">
+                    <figure class="image">
+                      <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
+                    </figure>
+                  </div>
+                  <div class="photo">
+                    <figure>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </figure>
+                    <figure>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </figure>
+                    <figure>
+                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                    </figure>
+                  </div>
+                </div>
+                <div class="user-info level">
+                  <div class="level-left">
+                    asdda
+                  </div>
+                  <div class="level-right">
+                    <button class="button is-danger is-rounded">
+                      <span>
+                        关注
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </el-card>
+            </div>
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -536,8 +617,9 @@ export default {
       width: 900px;
       .el-card {
         .el-card__body {
-          .image {
+          .user-images {
             display: flex;
+            width: 354px;
             .avatar {
               width: 100px;
               height: 100px;
@@ -551,10 +633,30 @@ export default {
               justify-content: flex-end;
               flex: 1 1 auto;
 
-              img {
+              figure {
+                background-color: #f7f7f7;
                 height: 100px;
                 width: 100px;
-                max-width: unset;
+                &:not(:last-child) {
+                  margin-right: 2px;
+                }
+                img {
+                  height: 100px;
+                  width: 100px;
+                  max-width: unset;
+                }
+                &:first-child {
+                  img {
+                    border-top-left-radius: 8px;
+                    border-bottom-left-radius: 8px;
+                  }
+                }
+                &:last-child {
+                  img {
+                    border-top-right-radius: 8px;
+                    border-bottom-right-radius: 8px;
+                  }
+                }
               }
             }
           }
