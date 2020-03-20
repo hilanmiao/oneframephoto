@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight-with-navbar">
+  <section class="hero is-fullheight-with-navbar page-following">
     <!-- Hero head: will stick at the top -->
     <Navbar />
 
@@ -75,7 +75,11 @@
                   </figure>
                 </div>
                 <div class="level-item">
-                  <button v-show="true" class="button is-danger is-rounded" @click="followingModalShow = !followingModalShow">
+                  <button
+                    v-show="true"
+                    class="button is-danger is-rounded"
+                    @click="followingModalShow = !followingModalShow"
+                  >
                     <span class="has-text-weight-bold">
                       寻找值得关注的用户
                     </span>
@@ -168,128 +172,62 @@
       <div class="modal-background" />
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">
+          <p class="modal-card-title has-text-centered has-text-weight-bold">
             创建你的关注页面
           </p>
-          <button class="delete" aria-label="close" />
+          <button class="delete" aria-label="close" @click="followingModalShow = false" />
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
           <div class="columns is-multiline">
-            <div class="column is-half">
+            <div v-for="i in 9" :key="i" class="column is-half">
               <el-card shadow="hover" :body-style="{ padding: '10px' }">
                 <div class="user-wrapper">
-                <div class="user-images">
-                  <div class="avatar">
-                    <figure class="image">
-                      <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
-                    </figure>
+                  <div class="user-images">
+                    <div class="avatar">
+                      <figure class="image">
+                        <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
+                      </figure>
+                    </div>
+                    <div class="photo">
+                      <figure>
+                        <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                      </figure>
+                      <figure>
+                        <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                      </figure>
+                      <figure>
+                        <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
+                      </figure>
+                    </div>
                   </div>
-                  <div class="photo">
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                  </div>
-                </div>
-                <div class="user-info level">
-                  <div class="level-left">
-                    asdda
-                  </div>
-                  <div class="level-right">
-                    <button class="button is-danger is-rounded">
-                      <span>
-                        关注
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                </div>
-              </el-card>
-            </div>
-            <div class="column is-half">
-              <el-card shadow="hover" :body-style="{ padding: '10px' }">
-                <div class="user-images">
-                  <div class="avatar">
-                    <figure class="image">
-                      <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
-                    </figure>
-                  </div>
-                  <div class="photo">
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                  </div>
-                </div>
-                <div class="user-info level">
-                  <div class="level-left">
-                    asdda
-                  </div>
-                  <div class="level-right">
-                    <button class="button is-danger is-rounded">
-                      <span>
-                        关注
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </el-card>
-            </div>
-            <div class="column is-half">
-              <el-card shadow="hover" :body-style="{ padding: '10px' }">
-                <div class="user-images">
-                  <div class="avatar">
-                    <figure class="image">
-                      <img class="is-rounded" src="https://avatars1.githubusercontent.com/u/27052900?s=460&v=4">
-                    </figure>
-                  </div>
-                  <div class="photo">
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                    <figure>
-                      <img src="https://i.pinimg.com/222x/6c/72/08/6c7208f852c365248827636482212389.jpg" alt="">
-                    </figure>
-                  </div>
-                </div>
-                <div class="user-info level">
-                  <div class="level-left">
-                    asdda
-                  </div>
-                  <div class="level-right">
-                    <button class="button is-danger is-rounded">
-                      <span>
-                        关注
-                      </span>
-                    </button>
+                  <div class="user-info level">
+                    <div class="level-left">
+                      <div class="level-item has-text-centered">
+                        <div>
+                          <p class="heading is-size-5 has-text-weight-bold">
+                            张国栋
+                          </p>
+                          <p class="title has-text-grey is-size-7">
+                            2.9万 粉丝
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="level-right">
+                      <button class="button is-danger is-rounded">
+                        <span>
+                          关注
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </el-card>
             </div>
           </div>
         </section>
-        <footer class="modal-card-foot">
-          <button class="button is-danger">
-            完成
-          </button>
-          <button class="button" @click="followingModalShow = false">
-            返回
-          </button>
-        </footer>
+        <footer class="modal-card-foot" />
       </div>
     </div>
   </section>
@@ -334,6 +272,11 @@ export default {
     // 放到async data里
     this.loadMore()
     window.addEventListener('scroll', this.handleScroll, true)
+    document.addEventListener('click', (e) => {
+      if (e.target.className === 'modal-background') {
+        this.followingModalShow = false
+      }
+    })
   },
   destroyed () {
     window.removeEventListener('scroll', this.handleScroll)
@@ -375,6 +318,19 @@ export default {
 }
 </script>
 
+<style lang="scss">
+  .modal.following-users {
+    .modal-card {
+      .el-card {
+        border: none;
+        .el-card__body {
+
+        }
+      }
+    }
+  }
+</style>
+
 <style lang="scss" scoped>
   .hero {
     .hero-body {
@@ -385,6 +341,7 @@ export default {
 
         .follower {
           justify-content: center;
+
           .follower-body {
             max-width: 800px;
             width: 100%;
@@ -613,54 +570,102 @@ export default {
   }
 
   .modal.following-users {
+    .modal-background {
+      background: rgba(0,0,0,.4);
+    }
     .modal-card {
       width: 900px;
-      .el-card {
-        .el-card__body {
-          .user-images {
-            display: flex;
-            width: 354px;
-            .avatar {
-              width: 100px;
-              height: 100px;
-              border: 2px solid white;
-              border-radius: 50%;
-              position: absolute;
-            }
+      max-height: calc(100vh - 100px);
 
-            .photo {
-              display: flex;
-              justify-content: flex-end;
-              flex: 1 1 auto;
+      .modal-card-head {
+        border: none;
+        background-color: white;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+      }
 
-              figure {
-                background-color: #f7f7f7;
-                height: 100px;
-                width: 100px;
-                &:not(:last-child) {
-                  margin-right: 2px;
-                }
-                img {
-                  height: 100px;
+      .modal-card-body {
+        .column {
+          display: flex;
+          justify-content: flex-end;
+          &:nth-of-type(even) {
+            justify-content: flex-start;
+          }
+          .el-card {
+            .el-card__body {
+              .user-images {
+                position: relative;
+                display: flex;
+                width: 354px;
+
+                .avatar {
                   width: 100px;
-                  max-width: unset;
+                  height: 100px;
+                  border: 2px solid white;
+                  border-radius: 50%;
+                  position: absolute;
                 }
-                &:first-child {
-                  img {
-                    border-top-left-radius: 8px;
-                    border-bottom-left-radius: 8px;
+
+                .photo {
+                  display: flex;
+                  justify-content: flex-end;
+                  flex: 1 1 auto;
+
+                  figure {
+                    background-color: #f7f7f7;
+                    height: 100px;
+                    width: 100px;
+
+                    &:not(:last-child) {
+                      margin-right: 2px;
+                    }
+
+                    img {
+                      height: 100px;
+                      width: 100px;
+                      max-width: unset;
+                    }
+
+                    &:first-child {
+                      img {
+                        border-top-left-radius: 8px;
+                        border-bottom-left-radius: 8px;
+                      }
+                    }
+
+                    &:last-child {
+                      img {
+                        border-top-right-radius: 8px;
+                        border-bottom-right-radius: 8px;
+                      }
+                    }
                   }
                 }
-                &:last-child {
-                  img {
-                    border-top-right-radius: 8px;
-                    border-bottom-right-radius: 8px;
-                  }
+              }
+
+              .user-info {
+                width: 354px;
+                padding-top: 12px;
+
+                .button {
+                  background-color: #e60023;
+                }
+
+                .button:hover {
+                  background-color: #ad081b;
                 }
               }
             }
           }
         }
+      }
+
+      .modal-card-foot {
+        padding: 10px;
+        border: none;
+        background-color: white;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
       }
     }
   }
