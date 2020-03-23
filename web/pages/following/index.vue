@@ -266,6 +266,15 @@ export default {
       followingModalShow: false
     }
   },
+  watch: {
+    followingModalShow (val) {
+      if (val) {
+        this.stopMove()
+      } else {
+        this.move()
+      }
+    }
+  },
   mounted () {
     // TODO: [Vue warn]: The client-side rendered virtual DOM tree is not matching server-rendered content. This is likely caused by incorrect HTML markup, for example nesting block-level elements inside <p>, or missing <tbody>. Bailing hydration and performing full client-side render.
     // 检查客户端其他生命周期钩子是否影响到页面数据的显示，比如用到一些关于数据的v-if等等
@@ -282,6 +291,20 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
+    // 停止页面滚动
+    stopMove () {
+      const m = function (e) { e.preventDefault() }
+      document.documentElement.style.overflow = 'hidden'
+      document.addEventListener('touchmove', m, { passive: false })// 禁止页面滑动
+    },
+
+    // 开启页面滚动
+    move () {
+      const m = function (e) { e.preventDefault() }
+      document.documentElement.style.overflow = ''// 出现滚动条
+      document.removeEventListener('touchmove', m, { passive: true })
+    },
+
     handleScroll (e) {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       if (scrollTop > this.lastScrollTop) {
@@ -293,6 +316,7 @@ export default {
         }
       }
     },
+
     async loadMore () {
       if (!this.isBusy) {
         this.isBusy = true
