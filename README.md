@@ -20,12 +20,20 @@ www.oneframephoto.com
 - frontend：管理后台，使用开源集成方案 vue-element-admin
 - web：网站，使用 nuxt.js 构建
 
-## backend开发说明
+## backend
 
+### 开发说明
 - 安装mysql，并创建数据库oneframephoto
 - 修改config配置文件，如mysql账号密码、github、微信第三方登录密钥等
 - 修改config.prod.js
 - 默认7001
+
+### 进度
+- [ ] 账号密码登录  
+- [ ] 第三方登录
+- [ ] 手机登录
+- [ ] 邮箱登录
+- [ ] 扫码登录
 
 ## frontend开发说明
 
