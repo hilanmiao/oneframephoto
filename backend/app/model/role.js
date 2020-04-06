@@ -11,10 +11,10 @@ module.exports = app => {
       defaultValue: UUIDV1,
     },
     name: { // 角色名称
-      type: STRING,
+      type: STRING(100),
       unique: true,
     },
-    remark: STRING(128), // 备注
+    remark: STRING, // 备注
     isEnabled: { // 是否可用
       type: BOOLEAN,
       defaultValue: true
