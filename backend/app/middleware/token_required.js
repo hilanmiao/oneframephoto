@@ -6,6 +6,13 @@ module.exports = (options, app) => {
 
     const { header: { authorization }, url, service, model } = ctx;
     const decodedToken = ctx.helper.decodeToken(authorization);
+
+    // 如果token验证不正确或没有
+    if (!decodedToken) {
+      ctx.helper.unauthorized({ ctx, message: 'Invalid Token' });
+      return
+    }
+
     if (decodedToken.exp < Math.floor(Date.now() / 1000)) {
       // Tips: 注意这里的message是固定的，不能改，前端根据文字判断是哪种token过期
       if (decodedToken.user) {
