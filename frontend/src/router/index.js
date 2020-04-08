@@ -97,6 +97,20 @@ export const constantRoutes = [
         meta: { title: 'profile', icon: 'user', noCache: true }
       }
     ]
+  },
+  {
+    path: '/notification',
+    component: Layout,
+    redirect: '/notification/index',
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/notification/index'),
+        name: 'Notification',
+        meta: { title: '消息通知', icon: 'user', noCache: true }
+      }
+    ]
   }
 ]
 
