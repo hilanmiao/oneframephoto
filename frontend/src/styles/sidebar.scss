@@ -61,6 +61,11 @@
       border: none;
       height: 100%;
       width: 100% !important;
+      .el-menu-item {
+        &.is-active {
+          background-color: $menuActiveBg !important;
+        }
+      }
     }
 
     // menu hover
@@ -79,9 +84,12 @@
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
       background-color: $subMenuBg !important;
+      &.is-active {
+        background-color: $menuActiveBg !important;
+      }
 
       &:hover {
-        background-color: $subMenuHover !important;
+        background-color: $menuActiveBg !important;
       }
     }
   }

@@ -69,9 +69,6 @@
           </span>
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
-        <div class="tips">
-          分享短链接：<el-link :href="`http://${shortUrl}`" target="_blank">{{ shortUrl }}</el-link>
-        </div>
 
         <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           {{ $t('login.thirdparty') }}
@@ -102,7 +99,7 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './components/SocialSignin'
-import { authService, shortUrlService } from '@/services'
+import { authService } from '@/services'
 import { Message } from 'element-ui'
 import config from '@/config'
 
@@ -171,8 +168,6 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    // 获取短链接
-    this.getShortUrl()
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {
@@ -183,20 +178,6 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
-    getShortUrl() {
-      shortUrlService.postModel({ url: 'http://localhost:9527/admin/login?redirect=%2Fstory%2Findex%2F' })
-        .then(response => {
-          this.shortUrl = response.data.shortUrl
-        })
-        .catch(error => {
-          this.loading = false
-          Message({
-            message: error.data.message,
-            type: 'error',
-            duration: 5 * 1000
-          })
-        })
-    },
     go(uri) {
       location.href = uri
     },

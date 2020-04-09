@@ -10,6 +10,6 @@ module.exports = app => {
 
   const tokenRequired = middleware.tokenRequired(null, app)
 
-  apiRouter.post('/shortUrl', shortUrl.short); // 生成短网址
+  apiRouter.post('/shortUrl', tokenRequired, shortUrl.short); // 生成短网址
   router.get('/:hash', shortUrl.redirect); // 访问短网址
 };

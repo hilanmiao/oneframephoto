@@ -23,7 +23,7 @@
 
         <lang-select class="right-menu-item hover-effect" />
 
-        <notification class="right-menu-item hover-effect" :unreadCount="9"/>
+        <notification class="right-menu-item hover-effect" :unread-count="9" />
 
       </template>
 

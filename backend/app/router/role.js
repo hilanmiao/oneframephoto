@@ -10,10 +10,10 @@ module.exports = app => {
 
   const tokenRequired = middleware.tokenRequired(null, app)
 
-  apiRouter.get('/role/all', role.all)
-  apiRouter.delete('/role', role.destroy)
-  apiRouter.delete('/role/deleteBatch', role.destroyBatch)
-  apiRouter.put('/role/:id/enable', role.enable)
-  apiRouter.put('/role/:id/disable', role.disable)
-  apiRouter.resources('role', '/role', role)
+  apiRouter.get('/role/all', tokenRequired, role.all)
+  apiRouter.delete('/role', tokenRequired, role.destroy)
+  apiRouter.delete('/role/deleteBatch', tokenRequired, role.destroyBatch)
+  apiRouter.put('/role/:id/enable', tokenRequired, role.enable)
+  apiRouter.put('/role/:id/disable', tokenRequired, role.disable)
+  apiRouter.resources('role', '/role', tokenRequired, role)
 };

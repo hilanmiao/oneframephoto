@@ -30,6 +30,11 @@ import moment from 'moment'
 import axios from 'axios'
 import qs from 'querystring'
 import Cookies from 'js-cookie'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome'
 
 /**
  * If you don't want to use mock-server
@@ -57,6 +62,15 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
+// font-awesome
+library.add(fas)
+library.add(fab)
+library.add(far)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-layers', FontAwesomeLayers)
+Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
+
+// element
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)

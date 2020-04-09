@@ -18,14 +18,14 @@
     </div>
 
     <div class="user-bio">
-<!--      <div class="user-education user-bio-section">-->
-<!--        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>介绍</span></div>-->
-<!--        <div class="user-bio-section-body">-->
-<!--          <div class="text-muted">-->
-<!--            JS in Computer Science from the University of Technology-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="user-education user-bio-section">
+        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>个性签名</span></div>
+        <div class="user-bio-section-body">
+          <div class="text-muted">
+            努力做一个不平凡的人，同时做好所有平凡的事！
+          </div>
+        </div>
+      </div>
 
       <div class="user-skills user-bio-section">
 <!--        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>账号管理</span></div>-->

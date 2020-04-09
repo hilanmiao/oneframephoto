@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     click() {
-      this.$router.push({ path: '/notification' })
+      this.$router.push({ path: '/profile/myNotifications' })
     }
   }
 }

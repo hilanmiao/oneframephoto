@@ -80,7 +80,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+        meta: { title: 'dashboard', icon: 'tachometer-alt', affix: true }
       }
     ]
   },
@@ -95,19 +95,11 @@ export const constantRoutes = [
         component: () => import('@/views/profile/index'),
         name: 'Profile',
         meta: { title: 'profile', icon: 'user', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/notification',
-    component: Layout,
-    redirect: '/notification/index',
-    hidden: true,
-    children: [
+      },
       {
-        path: 'index',
-        component: () => import('@/views/notification/index'),
-        name: 'Notification',
+        path: 'myNotifications',
+        component: () => import('@/views/profile/myNotifications/index'),
+        name: 'MyNotifications',
         meta: { title: '消息通知', icon: 'user', noCache: true }
       }
     ]
@@ -128,7 +120,7 @@ export const asyncRoutes = [
     name: 'Sys',
     meta: {
       title: '系统管理',
-      icon: 'lock',
+      icon: 'cogs',
       identification: 'sys',
       type: 'd'
     },
@@ -138,6 +130,7 @@ export const asyncRoutes = [
         component: () => import('@/views/user/index'),
         name: 'SysUser',
         meta: {
+          icon: 'tasks',
           title: '用户管理',
           identification: 'sys:user',
           type: 'm'
@@ -148,6 +141,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'SysDepartment',
         meta: {
+          icon: 'tasks',
           title: '部门管理',
           identification: 'sys:department',
           type: 'm'
@@ -158,6 +152,7 @@ export const asyncRoutes = [
         component: () => import('@/views/role/index'),
         name: 'SysRole',
         meta: {
+          icon: 'tasks',
           title: '角色管理',
           identification: 'sys:role',
           type: 'm'
@@ -168,8 +163,10 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/index'),
         name: 'SysPermission',
         meta: {
+          icon: 'tasks',
           title: '权限管理',
-          identification: 'sys:permission'
+          identification: 'sys:permission',
+          type: 'm'
         },
         hidden: true
       },
@@ -178,18 +175,20 @@ export const asyncRoutes = [
         component: () => import('@/views/dictionary/index'),
         name: 'SysDictionary',
         meta: {
+          icon: 'tasks',
           title: '字典管理',
           identification: 'sys:dictionary',
           type: 'm'
         }
       },
       {
-        path: 'log',
-        component: () => import('@/views/log/index'),
-        name: 'SysLog',
+        path: 'notification',
+        component: () => import('@/views/notification/index'),
+        name: 'SysNotification',
         meta: {
-          title: '日志管理',
-          identification: 'sys:log',
+          icon: 'tasks',
+          title: '消息管理',
+          identification: 'sys:notification',
           type: 'm'
         }
       }
@@ -203,12 +202,82 @@ export const asyncRoutes = [
       {
         path: 'index',
         component: () => import('@/views/story/index'),
-        name: 'Story',
+        name: 'StoryIndex',
         meta: {
+          icon: 'book-open',
           title: '故事管理',
-          icon: 'user',
           noCache: true,
           identification: 'story:index',
+          type: 'm'
+        }
+      }
+    ]
+  },
+  {
+    path: '/shortUrl',
+    component: Layout,
+    redirect: '/shortUrl/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/short-url/index'),
+        name: 'ShortUrlIndex',
+        meta: {
+          icon: 'link',
+          title: '短链接',
+          noCache: true,
+          identification: 'shortUrl:index',
+          type: 'm'
+        }
+      }
+    ]
+  },
+  {
+    path: '/log',
+    component: Layout,
+    redirect: '/log/loginLog',
+    alwaysShow: true, // will always show the root menu
+    name: 'Log',
+    meta: {
+      title: '日志管理',
+      icon: 'file-alt',
+      identification: 'sys',
+      type: 'd'
+    },
+    children: [
+      {
+        path: 'loginLog',
+        component: () => import('@/views/login-log/index'),
+        name: 'LogLoginLog',
+        meta: {
+          icon: 'tasks',
+          title: '登录日志',
+          noCache: true,
+          identification: 'log:loginLog',
+          type: 'm'
+        }
+      },
+      {
+        path: 'operationLog',
+        component: () => import('@/views/operation-log/index'),
+        name: 'LogOperationLog',
+        meta: {
+          icon: 'tasks',
+          title: '操作日志',
+          noCache: true,
+          identification: 'log:operationLog',
+          type: 'm'
+        }
+      },
+      {
+        path: 'transactionLog',
+        component: () => import('@/views/transaction-log/index'),
+        name: 'LogTransactionLog',
+        meta: {
+          icon: 'tasks',
+          title: '交易日志',
+          noCache: true,
+          identification: 'log:transactionLog',
           type: 'm'
         }
       }

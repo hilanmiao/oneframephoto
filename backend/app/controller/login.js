@@ -14,22 +14,32 @@ class LoginController extends Controller {
 
   // 登录
   async login() {
-    const { app, ctx, service } = this;
+    const { app, ctx, service: { login, loginLog } } = this;
     ctx.validate(this.loginRule);
     const { username, password } = ctx.request.body
     const payload = { username, password }
-    let data = await service.login.login(payload);
+    let data = await login.login(payload);
+
+    const payloadLog = { username, content: JSON.stringify(ctx.request), remark: '登录成功' }
 
     if (!data.user) {
-      ctx.helper.unauthorized({ ctx, message: '无效的账户名或密码' })
+      const message = '无效的账户名或密码'
+      ctx.helper.unauthorized({ ctx, message })
+
+      payloadLog.remark = message
     } else if (!data.user.isEnabled) {
+      const message = '账户已经被禁用'
       ctx.helper.unauthorized({ ctx, message: '账户已经被禁用' })
+
+      payloadLog.remark = message
     } else {
       data = {
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,
       }
       this.success({ ctx, data })
+
+      loginLog.create(payloadLog);
     }
   }
 

@@ -9,7 +9,7 @@
 
         <el-col :span="20" :xs="24">
           <el-card>
-              <account :user="user" />
+              <account :user="user" v-show="activeTab === 'account'" />
           </el-card>
         </el-col>
 
@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       user: {},
-      activeTab: 'activity'
+      activeTab: 'account'
     }
   },
   computed: {

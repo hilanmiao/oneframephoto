@@ -1,7 +1,7 @@
 <template>
   <div class="app-container page-user">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="标题" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.username" placeholder="标题" style="width: 200px;margin-right: 10px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button v-permission-button="[`${identification}:add`]" v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -120,7 +120,7 @@
         <el-form-item label="简介">
           <el-input v-model="temp.introduction" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="简介">
+        <el-form-item label="性别">
           <el-radio v-model="temp.sex" label="1">男</el-radio>
           <el-radio v-model="temp.sex" label="2">女</el-radio>
         </el-form-item>
@@ -223,7 +223,6 @@ export default {
   methods: {
     changeSelect(value) {
       console.log(value)
-      console.log(this.temp.roleId)
     },
     getList() {
       this.listLoading = true
