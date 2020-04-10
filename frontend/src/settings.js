@@ -1,6 +1,8 @@
 module.exports = {
   title: '一帧照片',
 
+  subTitle: 'OneFramePhoto',
+
   /**
    * @type {boolean} true | false
    * @description Whether show the settings right-panel

@@ -19,7 +19,7 @@ export default {
     if (icon) {
       // vnodes.push(<svg-icon icon-class={icon}/>)
       // 替换为font-awesome-icon
-      vnodes.push(<font-awesome-icon class='icon' icon={icon}/>)
+      vnodes.push(<font-awesome-icon class='svg-icon' icon={icon}/>)
     }
 
     if (title) {

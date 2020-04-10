@@ -79,8 +79,8 @@ class LoginLogController extends Controller {
   // 列表
   async index() {
     const { ctx, service: { loginLog } } = this;
-    const { page, limit, title } = ctx.request.query;
-    const payload = { page, limit, title };
+    const { page, limit, username } = ctx.request.query;
+    const payload = { page, limit, username };
     const data = await loginLog.index(payload);
     this.success({ ctx, data });
   }

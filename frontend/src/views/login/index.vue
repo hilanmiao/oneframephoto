@@ -1,111 +1,52 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
-      <div class="title-container">
-        <h3 class="title">
-          {{ $t('login.title') }}
-        </h3>
-        <lang-select class="set-language" />
+    <canvas-star-background />
+    <div class="box">
+      <div class="box-color" />
+      <div class="box-image">
+        <img src="@/assets/images/login-left.png" alt="">
       </div>
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          :placeholder="$t('login.username')"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
-
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            :placeholder="$t('login.password')"
-            name="password"
-            tabindex="2"
-            autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </el-form-item>
-      </el-tooltip>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
-        {{ $t('login.logIn') }}
-      </el-button>
-
-      <div style="position:relative">
-        <div class="tips">
-          <span>{{ $t('login.username') }} : admin</span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
+      <div class="box-title">
+        <img src="@/assets/images/logo.png" alt="" class="logo">
+        <div class="info">
+          <span class="title">{{ title }}</span>
+          <span class="sub-title">{{ subTitle }}</span>
         </div>
-        <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : dev
-          </span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : test
-          </span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          {{ $t('login.thirdparty') }}
-        </el-button>
-        <el-button @click="go(loginGithubURI)">
-          Github
-        </el-button>
-        <el-button @click="go(loginWeixinURI)">
-          微信1
-        </el-button>
-        <el-button @click="go(loginDingtalkURI)">
-          钉钉
-        </el-button>
       </div>
-    </el-form>
-
-    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
-      {{ $t('login.thirdpartyTips') }}
-      <br>
-      <br>
-      <br>
-      <social-sign />
-    </el-dialog>
+      <el-card class="box-card">
+        <div class="left" />
+        <div class="right">
+          <el-tabs v-model="activeTabName">
+            <el-tab-pane label="密码登录" name="account">
+              <account-login />
+            </el-tab-pane>
+            <el-tab-pane label="短信登录" name="note">
+              <note-login />
+            </el-tab-pane>
+            <el-tab-pane label="扫码登录" name="scan">
+              <scan-login />
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-import LangSelect from '@/components/LangSelect'
-import SocialSign from './components/SocialSignin'
 import { authService } from '@/services'
 import { Message } from 'element-ui'
 import config from '@/config'
+import defaultSettings from '@/settings'
+import CanvasStarBackground from '@/components/CanvasStarBackground'
+import AccountLogin from './components/AccountLogin'
+import NoteLogin from './components/NoteLogin'
+import ScanLogin from './components/ScanLogin'
 
 export default {
   name: 'Login',
-  components: { LangSelect, SocialSign },
+  components: { AccountLogin, NoteLogin, ScanLogin, CanvasStarBackground },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -122,6 +63,8 @@ export default {
       }
     }
     return {
+      title: defaultSettings.title || 'Vue Element Admin',
+      subTitle: defaultSettings.subTitle || 'Vue Element Admin',
       loginForm: {
         username: 'admin',
         password: '0123456789'
@@ -136,7 +79,8 @@ export default {
       showDialog: false,
       redirect: undefined,
       otherQuery: {},
-      shortUrl: ''
+      shortUrl: '',
+      activeTabName: 'account'
     }
   },
   computed: {
@@ -252,139 +196,130 @@ export default {
     //       alert('第三方登录失败')
     //     }
     //   }
-    // }
+    // },
   }
 }
 </script>
 
-<style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
+<style lang="scss" scoped>
+  $loginWidth: 900px;
+  $loginHeight: 500px;
+  $colorExtraHeight: 40px;
+  $imageExtraWidth: 40px;
+  $borderRadius: 8px;
+  $formPaddingLeft: 80px;
 
-$bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+  .login-container {
+    min-height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(circle,#99CCCC, #7171B7);
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
+    .box {
+      position: relative;
+    }
 
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
+    .box-color {
+      width: calc(#{$loginWidth}/2);
+      height: calc(#{$loginHeight} + #{$colorExtraHeight});
+      position: absolute;
+      background-image: linear-gradient(to bottom , #409EFF , #B3D8FF);
+      margin-top: calc(-#{$colorExtraHeight}/2);
+      border-radius: $borderRadius;
+      clip-path: polygon(0 0,75% 0,95% 100%, 0px 100%)
+    }
 
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
+    .box-image {
+      position: absolute;
+      height: $loginHeight;
+      width: calc(#{$loginWidth}/2 + #{$imageExtraWidth}/2);
+      display: flex;
+      align-items: center;
+      margin-left: -40px;
+      img {
+        max-width: 100%;
+      }
+    }
 
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+    .box-title {
+      position: absolute;
+      top: 40px;
+      left: calc(#{$loginWidth}/2 + #{$imageExtraWidth}/2);
+      display: flex;
+      align-items: center;
+      .logo {
+        height: 44px;
+        width: 44px;
+      }
+      .info {
+        padding-left: 6px;
+        display: flex;
+        flex-direction: column;
+        .title {
+          font-size: 20px;
+          color: #303133;
+          font-weight: bold;
+        }
+        .sub-title {
+          font-size: 12px;
+          padding-top: 2px;
+          color: #909399;
+        }
+      }
+    }
+
+    .box-card {
+      height: $loginHeight;
+      width: $loginWidth;
+      border-radius: $borderRadius;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
+
+      .left {
+        flex: 1;
+      }
+
+      .right {
+        flex: 1;
+        padding-left: calc(#{$formPaddingLeft}/2);
+
+        .el-tabs {
+          padding-right: calc(#{$formPaddingLeft}/2);
+        }
       }
     }
   }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
 </style>
 
-<style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+<style lang="scss">
+  .login-container {
+    .el-card__body {
+      width: 100%;
+      display: flex;
+    }
 
-.login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: $bg;
-  overflow: hidden;
+    .el-input {
+      height: 40px;
+      line-height: 40px;
 
-  .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
+      input {
+        height: 40px;
+        line-height: 40px;
+        padding-left: 35px;
       }
     }
-  }
 
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
+    .el-input__prefix {
+      width: 30px;
+      color: #889aa4;
     }
-
-    .set-language {
-      color: #fff;
-      position: absolute;
-      top: 3px;
-      font-size: 18px;
-      right: 0px;
-      cursor: pointer;
+    .el-input__suffix {
+      width: 30px;
+      color: #889aa4;
     }
   }
-
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .thirdparty-button {
-    position: absolute;
-    right: 0;
-    bottom: 6px;
-  }
-
-  @media only screen and (max-width: 470px) {
-    .thirdparty-button {
-      display: none;
-    }
-  }
-}
 </style>

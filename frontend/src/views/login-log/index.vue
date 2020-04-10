@@ -22,9 +22,14 @@
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录信息" min-width="400px" align="center">
+      <el-table-column label="登录信息" min-width="400px" align="left">
         <template slot-scope="{row}">
-          <span>{{ row.content }}</span>
+<!--          <pre>{{ JSON.parse(row.content) }}</pre>-->
+          <vue-json-pretty
+            :deep="0"
+            :data="JSON.parse(row.content)">
+          </vue-json-pretty>
+
         </template>
       </el-table-column>
       <el-table-column label="备注" width="150px" align="center">
@@ -47,11 +52,12 @@
 import permissionButton from '@/directive/permission-button/index.js' // 权限判断指令
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import VueJsonPretty from 'vue-json-pretty'
 
 import { loginLogService } from '@/services'
 
 export default {
-  components: { Pagination },
+  components: { Pagination, VueJsonPretty },
   directives: { waves, permissionButton },
   filters: {
 

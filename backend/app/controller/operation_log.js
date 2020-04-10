@@ -79,8 +79,8 @@ class OperationLogController extends Controller {
   // 列表
   async index() {
     const { ctx, service: { operationLog } } = this;
-    const { page, limit, title } = ctx.request.query;
-    const payload = { page, limit, title };
+    const { page, limit, username } = ctx.request.query;
+    const payload = { page, limit, username };
     const data = await operationLog.index(payload);
     this.success({ ctx, data });
   }
