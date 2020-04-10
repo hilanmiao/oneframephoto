@@ -218,7 +218,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: radial-gradient(circle,#99CCCC, #7171B7);
+    /*background-image: radial-gradient(circle,#99CCCC, #7171B7);*/
+    background: url("../../assets/images/background.png") no-repeat;
+    background-size: 100%;
 
     .box {
       position: relative;
