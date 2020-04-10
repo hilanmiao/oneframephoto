@@ -2,7 +2,9 @@
   <div class="login-container">
     <canvas-star-background />
     <div class="box">
-      <div class="box-color" />
+      <div class="color-wrap">
+        <div class="box-color" />
+      </div>
       <div class="box-image">
         <img src="@/assets/images/login-left.png" alt="">
       </div>
@@ -220,6 +222,10 @@ export default {
 
     .box {
       position: relative;
+    }
+
+    .color-wrap {
+      filter: drop-shadow(-1px 1px 10px #79BBFF );
     }
 
     .box-color {
