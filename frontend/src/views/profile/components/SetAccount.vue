@@ -7,10 +7,10 @@
         <b class="danger">3/4</b>
       </span>
     </div>
-    <el-divider></el-divider>
+    <el-divider />
     <div class="item-box">
       <div class="left">
-        <font-awesome-icon :icon="['fas', 'envelope']" size="2x" class="icon"/>
+        <font-awesome-icon :icon="['fas', 'envelope']" size="2x" class="icon" />
       </div>
       <div class="center">
         <p class="subtitle"><strong>邮箱</strong> shenyingzgd@126.com 已绑定</p>
@@ -20,10 +20,10 @@
         <el-button round>更改</el-button>
       </div>
     </div>
-    <el-divider></el-divider>
+    <el-divider />
     <div class="item-box">
       <div class="left">
-        <font-awesome-icon :icon="['fas', 'mobile-alt']" size="2x" class="icon"/>
+        <font-awesome-icon :icon="['fas', 'mobile-alt']" size="2x" class="icon" />
       </div>
       <div class="center">
         <p class="subtitle">
@@ -38,23 +38,23 @@
         <el-button round>更改</el-button>
       </div>
     </div>
-    <el-divider></el-divider>
+    <el-divider />
     <div class="item-box">
       <div class="left">
-        <font-awesome-icon :icon="['fas', 'mobile-alt']" size="2x" class="icon"/>
+        <font-awesome-icon :icon="['fas', 'mobile-alt']" size="2x" class="icon" />
       </div>
       <div class="center">
         <p class="subtitle"><strong>密码</strong> 已设置</p>
         <p class="content">用于保护账号信息和登录安全</p>
       </div>
       <div class="right">
-        <el-button round>更改</el-button>
+        <el-button round @click="passwordDialogFormVisible = true">更改</el-button>
       </div>
     </div>
-    <el-divider></el-divider>
+    <el-divider />
     <div class="item-box">
       <div class="left">
-        <font-awesome-icon :icon="['fas', 'mobile-alt']" size="2x" class="icon"/>
+        <font-awesome-icon :icon="['fas', 'mobile-alt']" size="2x" class="icon" />
       </div>
       <div class="center">
         <p class="subtitle"><strong>社交账号</strong></p>
@@ -65,7 +65,7 @@
     <div class="social">
       <div class="item">
         <div class="left">
-          <font-awesome-icon :icon="['fab', 'github-alt']" size="3x" class="icon github unbound"/>
+          <font-awesome-icon :icon="['fab', 'github-alt']" size="3x" class="icon github unbound" />
         </div>
         <div class="right">
           <p class="brand"><strong>github</strong></p>
@@ -75,7 +75,7 @@
       </div>
       <div class="item">
         <div class="left">
-          <font-awesome-icon :icon="['fab', 'weixin']" size="3x" class="icon weixin" :style="{ color: '#1BB723' }"/>
+          <font-awesome-icon :icon="['fab', 'weixin']" size="3x" class="icon weixin" :style="{ color: '#1BB723' }" />
         </div>
         <div class="right">
           <p class="brand"><strong>微信</strong></p>
@@ -85,7 +85,7 @@
       </div>
       <div class="item">
         <div class="left">
-          <font-awesome-icon :icon="['fab', 'weibo']" size="3x" class="icon weibo" :style="{ color: '#EA5D5C' }"/>
+          <font-awesome-icon :icon="['fab', 'weibo']" size="3x" class="icon weibo" :style="{ color: '#EA5D5C' }" />
         </div>
         <div class="right">
           <p class="brand"><strong>微博</strong></p>
@@ -95,7 +95,7 @@
       </div>
       <div class="item">
         <div class="left">
-          <font-awesome-icon :icon="['fab', 'qq']" size="3x" class="icon qq" :style="{ color: '#008CFF' }"/>
+          <font-awesome-icon :icon="['fab', 'qq']" size="3x" class="icon qq" :style="{ color: '#008CFF' }" />
         </div>
         <div class="right">
           <p class="brand"><strong>QQ</strong></p>
@@ -103,31 +103,40 @@
           <el-button size="mini">解除绑定</el-button>
         </div>
       </div>
+      <div class="item">
+        <div class="left">
+          <!--          <font-awesome-icon :icon="['fab', 'qq']" size="3x" class="icon qq" :style="{ color: '#008CFF' }"/>-->
+          <div class="fa-3x icon dingtalk" :style="{ color: '#4494F0' }">
+            <svg-icon icon-class="dingtalk" />
+          </div>
+        </div>
+        <div class="right">
+          <p class="brand"><strong>钉钉</strong></p>
+          <p class="info">已绑定 毛毛虫</p>
+          <el-button size="mini">解除绑定</el-button>
+        </div>
+      </div>
     </div>
+
+    <password :password-dialog-form-visible.sync="passwordDialogFormVisible" />
   </div>
 </template>
 
 <script>
+import password from '../dialog/password'
+
 export default {
+  components: { password },
   props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: ''
-        }
-      }
+
+  },
+  data() {
+    return {
+      passwordDialogFormVisible: false
     }
   },
   methods: {
-    submit() {
-      this.$message({
-        message: 'User information has been updated successfully',
-        type: 'success',
-        duration: 5 * 1000
-      })
-    }
+
   }
 }
 </script>

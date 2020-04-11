@@ -135,6 +135,7 @@ class UserService extends Service {
   async getCurrentUserProfile(id) {
     const { app: { model: { User, Role, Permission }, Sequelize: { Op } } } = this;
     const op = {
+      attributes: { exclude: ['password'] },
       where: {
         id,
         isEnabled: true

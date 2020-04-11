@@ -68,6 +68,18 @@ module.exports = app => {
   }
 
   // 生成哈希
+  User.generateHash = async function generateHash(key) {
+    const salt = await Bcrypt.genSalt(10);
+    const hash = await Bcrypt.hash(key, salt);
+    return { key, hash };
+  }
+
+  User.prototype.generateHash = async function generateHash(key) {
+    const salt = await Bcrypt.genSalt(10);
+    const hash = await Bcrypt.hash(key, salt);
+    return { key, hash };
+  }
+
   async function generateHash(key) {
     const salt = await Bcrypt.genSalt(10);
     const hash = await Bcrypt.hash(key, salt);

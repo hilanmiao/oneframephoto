@@ -38,4 +38,12 @@ internals.disable = (id) => {
   return http.put(`api/user/${id}/disable`)
 }
 
+internals.putMyPassword = (payload) => {
+  return http.put(`api/user/my/password`, payload)
+}
+
+internals.putMyProfile = (payload) => {
+  return http.put(`api/user/my/profile`, payload)
+}
+
 export default internals

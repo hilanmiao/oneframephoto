@@ -92,6 +92,16 @@ class LoginLogController extends Controller {
     const data = await loginLog.all(payload);
     this.success({ ctx, data });
   }
+
+  // 列表
+  async getCurrentUserLog() {
+    const { ctx, service: { loginLog } } = this;
+    const user = ctx.request.user
+    const { page, limit } = ctx.request.query;
+    const payload = { page, limit, username: user.username };
+    const data = await loginLog.index(payload);
+    this.success({ ctx, data });
+  }
 }
 
 module.exports = LoginLogController;

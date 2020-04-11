@@ -5,15 +5,26 @@
     <!--    </div>-->
 
     <div class="user-profile">
-      <div class="box-center">
-        <pan-thumb image="https://avatars2.githubusercontent.com/u/27052900?s=460&u=70a84e4917cdbd8d34e332de94e3bd52894380c1&v=4" :height="'100px'" :width="'100px'" :hoverable="false">
-          <div>Hello</div>
-          {{ user.role }}
-        </pan-thumb>
+      <div class="avatar">
+        <el-upload
+          class="avatar-uploader"
+          action="#"
+          accept=".jpg,.png,.gif,.jpeg,.JPG,.JPEG,.GIF"
+          :show-file-list="false"
+          :on-success="handlePhotoUploadSuccess"
+          :on-error="handlePhotoUploadError"
+          :on-progress="handlePhotoUploadProgress"
+          :http-request="uploadPhoto"
+        >
+          <img :src="user.profileImageUrl" alt="" draggable="false">
+          <div class="update-avatar">
+            <span>更换头像</span>
+          </div>
+        </el-upload>
       </div>
       <div class="box-center">
-        <div class="user-name text-center">administrator</div>
-        <div class="user-role text-center text-muted">超级管理员</div>
+        <div class="user-name text-center">{{ user.username }}</div>
+        <div class="user-role text-center text-muted">{{ user.role.name }}</div>
       </div>
     </div>
 
@@ -22,31 +33,31 @@
         <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>个性签名</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            努力做一个不平凡的人，同时做好所有平凡的事！
+            {{ user.introduction }}
           </div>
         </div>
       </div>
 
       <div class="user-skills user-bio-section">
-<!--        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>账号管理</span></div>-->
+        <!--        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>账号管理</span></div>-->
         <div class="user-bio-section-body">
           <el-menu
-            default-active="1"
+            default-active="account"
             class=""
           >
-            <el-menu-item index="1">
+            <el-menu-item index="account" @click="activeMenu = 'account'">
               <i class="el-icon-menu" />
               <strong slot="title">账号绑定</strong>
             </el-menu-item>
-            <el-menu-item index="2">
+            <el-menu-item index="profile" @click="activeMenu = 'profile'">
               <i class="el-icon-setting" />
               <strong slot="title">个人信息</strong>
             </el-menu-item>
-            <el-menu-item index="3">
+            <el-menu-item index="operationLog" @click="activeMenu = 'operationLog'">
               <i class="el-icon-setting" />
               <strong slot="title">操作记录</strong>
             </el-menu-item>
-            <el-menu-item index="4">
+            <el-menu-item index="authenticate" @click="activeMenu = 'authenticate'">
               <i class="el-icon-setting" />
               <strong slot="title">实名认证</strong>
             </el-menu-item>
@@ -58,27 +69,102 @@
 </template>
 
 <script>
-import PanThumb from '@/components/PanThumb'
+import { mapGetters } from 'vuex'
+import config from '@/config'
+import { userService, fileService } from '@/services'
 
 export default {
-  components: { PanThumb },
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: '',
-          avatar: '',
-          roles: ''
-        }
+  components: { },
+  props: {},
+  data() {
+    return {
+      activeMenu: 'account'
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
+  },
+  watch: {
+    activeMenu: {
+      handler: function(val, oldVal) {
+        this.$emit('update:activeMenu', val)
       }
+    }
+  },
+  methods: {
+    beforeUploadPhoto(file) {
+      const isLt5M = file.size / 1024 / 1024 < 5
+
+      if (!isLt5M) {
+        this.$message.error('上传图片大小不能超过 10MB!')
+        return false
+      }
+      return true
+    },
+    uploadPhoto(content) {
+      const checkUpload = this.beforeUploadPhoto(content.file)
+      if (!checkUpload) {
+        return
+      }
+      console.log(content)
+      fileService.uploadPhoto(content.file.name, content.file, {
+        // axios 上传进度事件
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+          console.log(percentCompleted)
+          // 更新element upload progress
+          content.onProgress({ percent: percentCompleted })
+          this.photoProgressPercent = percentCompleted
+        }
+      }).then(response => {
+        content.onSuccess(response)
+        setTimeout(() => {
+          this.photoProgressPercent = 0
+        }, 1000)
+      }).catch(error => {
+        content.onError(error)
+      })
+    },
+    async handlePhotoUploadSuccess(response, file) {
+      console.log(response)
+
+      // 更新用户头像
+      const payload = { profileImageUrl: config.serverURI + response.data.url }
+      await userService.putMyProfile(payload).then((response) => {
+        this.$message({
+          message: '用户信息修改成功',
+          type: 'success'
+        })
+
+        // 更新内存中的用户信息
+        console.log(response.data)
+        this.$store.commit('auth/SET_USER', response.data)
+      }).catch(error => {
+        console.error('user.putMyPassword-error:', error)
+        this.$message({
+          message: error.data.message,
+          type: 'error'
+        })
+      })
+    },
+    handlePhotoUploadError(err) {
+      console.log(err)
+      this.$message({
+        message: '上传失败',
+        type: 'error'
+      })
+    },
+    handlePhotoUploadProgress(event, file, fileList) {
+      console.log(event, file)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
  .box-center {
    margin: 0 auto;
    display: table;
@@ -89,6 +175,46 @@ export default {
  }
 
  .user-profile {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   .avatar {
+     position: relative;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 50%;
+     cursor: pointer;
+     border: 4px solid #d9dde1;
+     overflow: hidden;
+     height: 100px;
+     width: 100px;
+     img {
+       height: 92px;
+       width: 92px;
+       min-height: 92px;
+       min-width: 92px;
+       /* 相邻兄弟 */
+       &:hover +.update-avatar {
+         bottom: 0;
+       }
+     }
+     .update-avatar {
+       font-size: 12px;
+       position: absolute;
+       width: 100%;
+       left: 0;
+       bottom: -30px;
+       transition: bottom .3s;
+       text-align: center;
+       background: rgba(0,0,0,.6);
+       color: #fff;
+       line-height: 30px;
+       pointer-events: none; /* 阻止鼠标事件 */
+     }
+   }
+
    .user-name {
      font-weight: bold;
    }

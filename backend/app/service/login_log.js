@@ -42,7 +42,7 @@ class LoginLogService extends Service {
   // 添加
   async create(payload) {
     const { app: { model: { LoginLog } } } = this;
-    console.log(9999, payload)
+    console.log(payload)
     return await LoginLog.create(payload);
   }
 

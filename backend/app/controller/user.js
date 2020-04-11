@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash')
+const Bcrypt = require('bcryptjs');
 
 const Controller = require('./base');
 
@@ -113,21 +114,30 @@ class UserController extends Controller {
 
   // 更新当前用户密码
   async updateCurrentUserPassword() {
-    const { app, ctx, service } = this;
+    const { app: { model: { User } }, ctx, service } = this;
     const { password, passwordNew } = ctx.request.body;
-    const payload = { password: passwordNew };
     // 判断原密码
     const currentUser = ctx.request.user
     console.log(currentUser)
-    if (currentUser.password === password) {
+    const passwordMatch = await Bcrypt.compare(password, currentUser.password);
+    if (passwordMatch) {
+      // 新的密码Hash处理
+      const generateHash = await User.generateHash(passwordNew)
+      const payload = { password: generateHash.hash };
       const user = await service.user.updateCurrentUserPassword(currentUser.id, payload);
       if (!user) {
-        this.fail({ ctx });
+        this.fail({ ctx, message: '用户不存在' });
       } else {
+        // 登出
+        const session = ctx.request.session
+        console.log(session)
+        if (session) {
+          await service.logout.logout(session.id)
+        }
         this.success({ ctx });
       }
     } else {
-      this.fail({ ctx });
+      this.fail({ ctx, message: '原密码不正确' });
       // ctx.helper.unauthorized({ ctx });
     }
   }
@@ -136,13 +146,18 @@ class UserController extends Controller {
   async updateCurrentUserProfile() {
     const { app, ctx, service } = this;
     const { displayName, sex, mobile, email, profileImageUrl } = ctx.request.body;
-    const payload = { displayName, sex, mobile, email, profileImageUrl };
+    // const payload = { displayName, sex, mobile, email, profileImageUrl };
+    // 邮箱和手机等需要单独设置
+    const payload = { displayName, sex, profileImageUrl };
     const currentUser = ctx.request.user
     const user = await service.user.updateCurrentUserProfile(currentUser.id, payload);
+
     if (!user) {
       this.fail({ ctx });
     } else {
-      this.success({ ctx });
+      // 重新获取完整关联信息
+      const data = await service.user.getCurrentUserProfile(user.id);
+      this.success({ ctx, data });
     }
   }
 }

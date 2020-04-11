@@ -4,12 +4,15 @@
       <el-row :gutter="20">
 
         <el-col :span="4" :xs="24">
-          <user-card :user="user" />
+          <user-card :active-menu.sync="activeMenu" />
         </el-col>
 
         <el-col :span="20" :xs="24">
           <el-card>
-              <account :user="user" v-show="activeTab === 'account'" />
+            <set-account v-show="activeMenu === 'account'" />
+            <set-profile v-show="activeMenu === 'profile'" />
+            <operation-log v-show="activeMenu === 'operationLog'" />
+            <authenticate v-show="activeMenu === 'authenticate'" />
           </el-card>
         </el-col>
 
@@ -21,15 +24,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserCard from './components/UserCard'
-import Account from './components/Account'
+import SetAccount from './components/SetAccount'
+import SetProfile from './components/SetProfile'
+import OperationLog from './components/OperationLog'
+import Authenticate from './components/Authenticate'
 
 export default {
   name: 'Profile',
-  components: { UserCard, Account },
+  components: { SetProfile, SetAccount, UserCard, OperationLog, Authenticate },
   data() {
     return {
-      user: {},
-      activeTab: 'account'
+      activeMenu: 'account'
     }
   },
   computed: {

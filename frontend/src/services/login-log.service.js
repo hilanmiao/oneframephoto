@@ -38,4 +38,8 @@ internals.disable = (id) => {
   return http.put(`api/loginLog/${id}/disable`)
 }
 
+internals.getMyLog = (params) => {
+  return http.get('api/loginLog/my', params)
+}
+
 export default internals

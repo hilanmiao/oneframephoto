@@ -23,7 +23,7 @@ class LoginController extends Controller {
     const payloadLog = { username, content: JSON.stringify(ctx.request), remark: '登录成功' }
 
     if (!data.user) {
-      const message = '无效的账户名或密码'
+      const message = '错误的账户名或密码'
       ctx.helper.unauthorized({ ctx, message })
 
       payloadLog.remark = message

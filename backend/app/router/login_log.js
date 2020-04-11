@@ -10,6 +10,9 @@ module.exports = app => {
 
   const tokenRequired = middleware.tokenRequired(null, app)
 
+  // 获取当前用户日志
+  apiRouter.get('/loginLog/my', tokenRequired, loginLog.getCurrentUserLog)
+
   apiRouter.get('/loginLog/all', tokenRequired, loginLog.all)
   apiRouter.delete('/loginLog', tokenRequired, loginLog.destroy)
   apiRouter.delete('/loginLog/deleteBatch', tokenRequired, loginLog.destroyBatch)

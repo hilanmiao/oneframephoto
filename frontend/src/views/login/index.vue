@@ -8,16 +8,16 @@
       <div class="box-image">
         <img src="@/assets/images/login-left.png" alt="">
       </div>
-      <div class="box-title">
-        <img src="@/assets/images/logo.png" alt="" class="logo">
-        <div class="info">
-          <span class="title">{{ title }}</span>
-          <span class="sub-title">{{ subTitle }}</span>
-        </div>
-      </div>
       <el-card class="box-card">
         <div class="left" />
         <div class="right">
+          <div class="box-title">
+            <img src="@/assets/images/logo.png" alt="" class="logo">
+            <div class="info">
+              <span class="title">{{ title }}</span>
+              <span class="sub-title">{{ subTitle }}</span>
+            </div>
+          </div>
           <el-tabs v-model="activeTabName">
             <el-tab-pane label="密码登录" name="account">
               <account-login />
@@ -29,6 +29,23 @@
               <scan-login />
             </el-tab-pane>
           </el-tabs>
+          <div class="box-bottom">
+            <div class="social">
+              <div class="icon" :style="{ backgroundColor: '#24292e' }" @click="go(loginGithubURI)">
+                <font-awesome-icon :icon="['fab', 'github-alt']" size="lg" />
+              </div>
+              <div class="icon" :style="{ backgroundColor: '#1BB723' }" @click="go(loginWeixinURI)">
+                <font-awesome-icon :icon="['fab', 'weixin']" size="lg" />
+              </div>
+              <div class="icon fa-lg dingtalk" :style="{ backgroundColor: '#4494F0' }" @click="go(loginDingtalkURI)">
+                <svg-icon icon-class="dingtalk" />
+              </div>
+            </div>
+            <div class="register">
+              <span>没有账号？</span>
+              <el-button type="text">马上注册</el-button>
+            </div>
+          </div>
         </div>
       </el-card>
     </div>
@@ -253,11 +270,9 @@ export default {
     }
 
     .box-title {
-      position: absolute;
-      top: 40px;
-      left: calc(#{$loginWidth}/2 + #{$imageExtraWidth}/2);
       display: flex;
       align-items: center;
+      padding-top: 10px;
       .logo {
         height: 44px;
         width: 44px;
@@ -297,7 +312,33 @@ export default {
 
         .el-tabs {
           padding-right: calc(#{$formPaddingLeft}/2);
+          padding-top: 30px;
         }
+      }
+    }
+
+    .box-bottom {
+      padding-right: calc(#{$formPaddingLeft}/2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .social {
+        color: #ffffff;
+        display: flex;
+        .icon {
+          cursor: pointer;
+          margin-right: 6px;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      .register {
+        font-size: 14px;
+        color: #909399;
       }
     }
   }
@@ -307,6 +348,7 @@ export default {
   .login-container {
     .el-card__body {
       width: 100%;
+      height: 100%;
       display: flex;
     }
 
