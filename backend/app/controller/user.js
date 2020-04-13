@@ -145,10 +145,10 @@ class UserController extends Controller {
   // 更新当前用户资料
   async updateCurrentUserProfile() {
     const { app, ctx, service } = this;
-    const { displayName, sex, mobile, email, profileImageUrl } = ctx.request.body;
+    const { displayName, sex, mobile, email, profileImageUrl, introduction } = ctx.request.body;
     // const payload = { displayName, sex, mobile, email, profileImageUrl };
     // 邮箱和手机等需要单独设置
-    const payload = { displayName, sex, profileImageUrl };
+    const payload = { displayName, sex, profileImageUrl, introduction };
     const currentUser = ctx.request.user
     const user = await service.user.updateCurrentUserProfile(currentUser.id, payload);
 

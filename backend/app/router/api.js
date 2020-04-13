@@ -14,7 +14,7 @@ module.exports = app => {
 
   const adminRequired = middleware.adminRequired();
 
-  const { story } = controller.api;
+  const { story, game } = controller.api;
 
   /**
    * 故事模块
@@ -27,6 +27,19 @@ module.exports = app => {
     apiV1Router.put('/story/:id/enable', story.enable)
     apiV1Router.put('/story/:id/disable', story.disable)
     apiV1Router.resources('story', '/story', story)
+  }
+
+  /**
+   * 游戏模块
+   */
+  // eslint-disable-next-line no-lone-blocks
+  {
+    apiV1Router.get('/game/all', game.all)
+    apiV1Router.delete('/game', game.destroy)
+    apiV1Router.delete('/game/deleteBatch', game.destroyBatch)
+    apiV1Router.put('/game/:id/enable', game.enable)
+    apiV1Router.put('/game/:id/disable', game.disable)
+    apiV1Router.resources('game', '/game', game)
   }
 
 };

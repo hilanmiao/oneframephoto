@@ -21,7 +21,7 @@
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
 
-        <lang-select class="right-menu-item hover-effect" />
+        <!--        <lang-select class="right-menu-item hover-effect" />-->
 
         <notification class="right-menu-item hover-effect" :unread-count="9" />
 
@@ -65,7 +65,7 @@ import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
-import LangSelect from '@/components/LangSelect'
+// import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
 import Notification from '@/components/Notification'
 import { authService } from '@/services'
@@ -77,7 +77,7 @@ export default {
     ErrorLog,
     Screenfull,
     SizeSelect,
-    LangSelect,
+    // LangSelect,
     Search,
     Notification
   },

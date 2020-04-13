@@ -1,6 +1,6 @@
 <template>
   <div class="">
-
+    扫码登录
   </div>
 </template>
 

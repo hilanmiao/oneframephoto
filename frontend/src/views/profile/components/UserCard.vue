@@ -11,10 +11,10 @@
           action="#"
           accept=".jpg,.png,.gif,.jpeg,.JPG,.JPEG,.GIF"
           :show-file-list="false"
-          :on-success="handlePhotoUploadSuccess"
-          :on-error="handlePhotoUploadError"
-          :on-progress="handlePhotoUploadProgress"
-          :http-request="uploadPhoto"
+          :on-success="handleAvatarUploadSuccess"
+          :on-error="handleAvatarUploadError"
+          :on-progress="handleAvatarUploadProgress"
+          :http-request="uploadAvatar"
         >
           <img :src="user.profileImageUrl" alt="" draggable="false">
           <div class="update-avatar">
@@ -94,7 +94,7 @@ export default {
     }
   },
   methods: {
-    beforeUploadPhoto(file) {
+    beforeUploadAvatar(file) {
       const isLt5M = file.size / 1024 / 1024 < 5
 
       if (!isLt5M) {
@@ -103,13 +103,13 @@ export default {
       }
       return true
     },
-    uploadPhoto(content) {
-      const checkUpload = this.beforeUploadPhoto(content.file)
+    uploadAvatar(content) {
+      const checkUpload = this.beforeUploadAvatar(content.file)
       if (!checkUpload) {
         return
       }
       console.log(content)
-      fileService.uploadPhoto(content.file.name, content.file, {
+      fileService.uploadAvatar(content.file.name, content.file, {
         // axios 上传进度事件
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
@@ -127,7 +127,7 @@ export default {
         content.onError(error)
       })
     },
-    async handlePhotoUploadSuccess(response, file) {
+    async handleAvatarUploadSuccess(response, file) {
       console.log(response)
 
       // 更新用户头像
@@ -149,14 +149,14 @@ export default {
         })
       })
     },
-    handlePhotoUploadError(err) {
+    handleAvatarUploadError(err) {
       console.log(err)
       this.$message({
         message: '上传失败',
         type: 'error'
       })
     },
-    handlePhotoUploadProgress(event, file, fileList) {
+    handleAvatarUploadProgress(event, file, fileList) {
       console.log(event, file)
     }
   }

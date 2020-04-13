@@ -24,11 +24,11 @@
       </el-table-column>
       <el-table-column label="登录信息" min-width="400px" align="left">
         <template slot-scope="{row}">
-<!--          <pre>{{ JSON.parse(row.content) }}</pre>-->
+          <!--          <pre>{{ JSON.parse(row.content) }}</pre>-->
           <vue-json-pretty
             :deep="0"
-            :data="JSON.parse(row.content)">
-          </vue-json-pretty>
+            :data="JSON.parse(row.content)"
+          />
 
         </template>
       </el-table-column>

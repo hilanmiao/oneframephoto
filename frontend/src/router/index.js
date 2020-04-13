@@ -214,6 +214,25 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/game',
+    component: Layout,
+    redirect: '/game/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/game/index'),
+        name: 'GameIndex',
+        meta: {
+          icon: 'gamepad',
+          title: '游戏管理',
+          noCache: true,
+          identification: 'game:index',
+          type: 'm'
+        }
+      }
+    ]
+  },
+  {
     path: '/shortUrl',
     component: Layout,
     redirect: '/shortUrl/index',
@@ -241,7 +260,7 @@ export const asyncRoutes = [
     meta: {
       title: '日志管理',
       icon: 'file-alt',
-      identification: 'sys',
+      identification: 'log',
       type: 'd'
     },
     children: [

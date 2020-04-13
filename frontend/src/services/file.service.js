@@ -2,20 +2,6 @@ import { httpClient as http } from '../services'
 
 const internals = {}
 
-internals.uploadProfileImage = (name, file, options) => {
-  const data = new FormData()
-  data.append('name', name)
-  data.append('file', file)
-  return http.post('/file/upload/profile-image', data, options)
-}
-
-internals.uploadImage = (name, file, options) => {
-  const data = new FormData()
-  data.append('name', name)
-  data.append('file', file)
-  return http.post('/file/upload/image', data, options)
-}
-
 internals.upload = (name, file, options) => {
   const data = new FormData()
   data.append('name', name)
@@ -23,11 +9,25 @@ internals.upload = (name, file, options) => {
   return http.post('api/upload', data, options)
 }
 
-internals.uploadPhoto = (name, file, options) => {
+internals.uploadAvatar = (name, file, options) => {
   const data = new FormData()
   data.append('name', name)
   data.append('file', file)
-  return http.post('api/uploadPhoto', data, options)
+  return http.post('api/uploadAvatar', data, options)
+}
+
+internals.uploadPhotoWH = (name, file, options) => {
+  const data = new FormData()
+  data.append('name', name)
+  data.append('file', file)
+  return http.post('api/uploadPhotoWH', data, options)
+}
+
+internals.uploadZip = (name, file, options) => {
+  const data = new FormData()
+  data.append('name', name)
+  data.append('file', file)
+  return http.post('api/uploadZip', data, options)
 }
 
 export default internals

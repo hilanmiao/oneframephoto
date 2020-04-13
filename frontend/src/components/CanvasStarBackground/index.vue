@@ -1,5 +1,5 @@
 <template>
-  <canvas id="canvasStarBackground" style="position: absolute" />
+  <canvas id="canvasStarBackground" />
 </template>
 
 <script>
@@ -202,3 +202,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  canvas {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+</style>

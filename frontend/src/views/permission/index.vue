@@ -133,6 +133,9 @@ export default {
   },
 
   created() {
+    if (!this.role) {
+      this.$router.push({ name: 'SysRole' })
+    }
   },
 
   mounted() {

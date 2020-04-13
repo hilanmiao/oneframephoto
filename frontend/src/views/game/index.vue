@@ -1,7 +1,7 @@
 <template>
-  <div class="app-container page-story">
+  <div class="app-container page-game">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="标题" style="width: 200px;margin-right: 10px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.name" placeholder="标题" style="width: 200px;margin-right: 10px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -25,21 +25,12 @@
       <el-table-column type="selection" align="center" width="55" />
       <el-table-column label="标题" min-width="150px">
         <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.title }}</span>
+          <span class="link-type" @click="handleUpdate(row)">{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="简介" min-width="150px" align="center">
+      <el-table-column label="规则" min-width="150px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.introduction }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="图片" width="150px" align="center">
-        <template slot-scope="{row}">
-          <el-image
-            style="width: 100px; height: 100px"
-            :src="row.photo"
-            fit="fit"
-          />
+          <span>{{ row.rule }}</span>
         </template>
       </el-table-column>
       <el-table-column label="启用/禁用" width="100px" align="center">
@@ -52,6 +43,20 @@
           />
         </template>
       </el-table-column>
+      <el-table-column label="封面" width="150px" align="center">
+        <template slot-scope="{row}">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="row.cover"
+            fit="fit"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column label="游戏演示地址" align="center">
+        <template slot-scope="{row}">
+          <el-link type="primary" :href="row.url" target="_blank">{{ row.url }}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button size="mini" type="primary" @click="handleUpdate(row)">
@@ -59,9 +64,6 @@
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row)">
             删除
-          </el-button>
-          <el-button size="mini" type="success" @click="handlePermission(row)">
-            权限
           </el-button>
         </template>
       </el-table-column>
@@ -71,31 +73,52 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="100px">
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="temp.title" placeholder="请输入" />
+        <el-form-item label="游戏名称" prop="name">
+          <el-input v-model="temp.name" placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="简介" prop="introduction">
-          <el-input v-model="temp.introduction" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
+        <el-form-item label="规则" prop="rule">
+          <el-input v-model="temp.rule" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="图片" prop="photo">
+        <el-form-item label="封面" prop="cover">
           <el-upload
             class="avatar-uploader"
             action="#"
             :show-file-list="false"
-            :on-success="handlePhotoUploadSuccess"
-            :on-error="handlePhotoUploadError"
-            :on-progress="handlePhotoUploadProgress"
-            :http-request="uploadPhoto"
+            :on-success="handleCoverUploadSuccess"
+            :on-error="handleCoverUploadError"
+            :on-progress="handleCoverUploadProgress"
+            :http-request="uploadCover"
           >
-            <img v-if="temp.photo" :src="temp.photo" class="avatar">
+            <img v-if="temp.cover" :src="temp.cover" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
-            <div v-show="photoProgressPercent !== 0" class="progress-wrapper">
-              <el-progress type="circle" :percentage="photoProgressPercent" />
+            <div v-show="coverProgressPercent !== 0" class="progress-wrapper">
+              <el-progress type="circle" :percentage="coverProgressPercent" />
             </div>
           </el-upload>
         </el-form-item>
-        <el-form-item label="内容" prop="content">
-          <el-input v-model="temp.content" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
+        <el-form-item label="压缩文件" prop="url">
+          <el-upload
+            ref="uploadZip"
+            class="upload-zip"
+            drag
+            action="#"
+            accept=".zip"
+            :limit="1"
+            :on-success="handleZipUploadSuccess"
+            :on-error="handleZipUploadError"
+            :on-progress="handleZipUploadProgress"
+            :http-request="uploadZip"
+            :on-exceed="handleZipExceed"
+            :on-remove="handleZipRemove"
+            :before-remove="beforeZipRemove"
+          >
+            <i class="el-icon-upload" />
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div slot="tip" class="el-upload__tip">只能上传zip、rar文件，且不超过100mb</div>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -111,11 +134,11 @@
 </template>
 
 <script>
+import config from '@/config'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-import config from '@/config'
-import { storyService, fileService } from '@/services'
+import { gameService, fileService } from '@/services'
 
 export default {
   components: { Pagination },
@@ -125,41 +148,41 @@ export default {
   },
   props: {},
 
-  data() {
-    return {
+  data: () => ({
     // 列表相关
-      list: null,
-      total: 0,
-      listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        title: undefined
-      },
-      multipleSelection: [],
-      // 表单相关
-      temp: {
-        id: undefined,
-        title: '',
-        introduction: '',
-        photo: '',
-        content: ''
-      },
-      dialogFormVisible: false,
-      dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '添加'
-      },
-      rules: {
-        title: [{ required: true, message: '必填', trigger: 'blur' }],
-        photo: [{ required: true, message: '必填', trigger: 'blur' }],
-        introduction: [{ required: true, message: '必填', trigger: 'blur' }],
-        content: [{ required: true, message: '必填', trigger: 'blur' }]
-      },
-      photoProgressPercent: 0
-    }
-  },
+    list: null,
+    total: 0,
+    listLoading: true,
+    listQuery: {
+      page: 1,
+      limit: 20,
+      name: undefined
+    },
+    multipleSelection: [],
+    // 表单相关
+    temp: {
+      id: undefined,
+      name: '',
+      remark: '',
+      rule: '',
+      cover: '',
+      url: ''
+    },
+    dialogFormVisible: false,
+    dialogStatus: '',
+    textMap: {
+      update: '编辑',
+      create: '添加'
+    },
+    rules: {
+      name: [{ required: true, message: '必填', trigger: 'blur' }],
+      rule: [{ required: true, message: '必填', trigger: 'blur' }],
+      cover: [{ required: true, message: '必填', trigger: 'blur' }],
+      url: [{ required: true, message: '必填', trigger: 'blur' }]
+    },
+    // 头像上传
+    coverProgressPercent: 0
+  }),
 
   computed: {},
 
@@ -172,12 +195,12 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      storyService.getList(this.listQuery).then(response => {
+      gameService.getList(this.listQuery).then(response => {
         this.list = response.data.rows
         this.total = response.data.count
         this.listLoading = false
       }).catch(error => {
-        console.error('story.getList-error:', error)
+        console.error('game.getList-error:', error)
         this.listLoading = false
         this.$message({
           message: '获取列表失败',
@@ -191,14 +214,14 @@ export default {
     },
     changeIsEnabled(row) {
       if (row.isEnabled) {
-        storyService.enable(row.id).then(() => {
+        gameService.enable(row.id).then(() => {
           this.getList()
           this.$message({
             message: '状态修改成功',
             type: 'success'
           })
         }).catch(error => {
-          console.error('story.enable-error:', error)
+          console.error('game.enable-error:', error)
           this.getList()
           this.$message({
             message: '状态修改失败',
@@ -206,14 +229,14 @@ export default {
           })
         })
       } else {
-        storyService.disable(row.id).then(() => {
+        gameService.disable(row.id).then(() => {
           this.getList()
           this.$message({
             message: '状态修改成功',
             type: 'success'
           })
         }).catch(error => {
-          console.error('story.enable-error:', error)
+          console.error('game.enable-error:', error)
           this.getList()
           this.$message({
             message: '状态修改失败',
@@ -222,62 +245,125 @@ export default {
         })
       }
     },
-    handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
-    },
-    beforeUploadPhoto(file) {
+    beforeUploadCover(file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
       const isLt10M = file.size / 1024 / 1024 < 10
 
       if (!isJPG && !isPNG) {
-        this.$message.error('上传图片只能是 JPG、PNG 格式!')
+        this.$message.error('上传头像图片只能是 JPG、PNG 格式!')
         return false
       }
       if (!isLt10M) {
-        this.$message.error('上传图片大小不能超过 10MB!')
+        this.$message.error('上传头像图片大小不能超过 10MB!')
         return false
       }
       return true
     },
-    uploadPhoto(content) {
-      const checkUpload = this.beforeUploadPhoto(content.file)
+    uploadCover(content) {
+      const checkUpload = this.beforeUploadCover(content.file)
       if (!checkUpload) {
         return
       }
       console.log(content)
-      fileService.uploadPhotoWH(content.file.name, content.file, {
+      fileService.upload(content.file.name, content.file, {
         // axios 上传进度事件
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
           console.log(percentCompleted)
           // 更新element upload progress
           content.onProgress({ percent: percentCompleted })
-          this.photoProgressPercent = percentCompleted
+          this.coverProgressPercent = percentCompleted
         }
       }).then(response => {
         content.onSuccess(response)
         setTimeout(() => {
-          this.photoProgressPercent = 0
+          this.coverProgressPercent = 0
         }, 1000)
       }).catch(error => {
         content.onError(error)
       })
     },
-    handlePhotoUploadSuccess(response, file) {
+    handleCoverUploadSuccess(response, file) {
       console.log(response)
-      this.temp.photo = config.serverURI + response.data.url
+      this.temp.cover = config.serverURI + response.data.url
     },
-    handlePhotoUploadError(err) {
+    handleCoverUploadError(err) {
       console.log(err)
       this.$message({
         message: '上传失败',
         type: 'error'
       })
     },
-    handlePhotoUploadProgress(event, file, fileList) {
+    handleCoverUploadProgress(event, file, fileList) {
       console.log(event, file)
+    },
+    beforeUploadZip(file) {
+      // const isZip = file.type === ('application/zip' || 'application/x-rar' || 'application/x-7z-compressed')
+      const isZip = file.type === ('application/zip')
+      const isLt100M = file.size / 1024 / 1024 < 100
+
+      if (!isZip) {
+        this.$message.error('上传头像图片只能是 zip 格式!')
+        return false
+      }
+      if (!isLt100M) {
+        this.$message.error('上传头像图片大小不能超过 100MB!')
+        return false
+      }
+      return true
+    },
+    uploadZip(content) {
+      const checkUpload = this.beforeUploadZip(content.file)
+      if (!checkUpload) {
+        // 清空已上传文件列表
+        this.$refs.uploadZip.clearFiles()
+        return
+      }
+      console.log(content)
+      fileService.uploadZip(content.file.name, content.file, {
+        // axios 上传进度事件
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+          console.log(percentCompleted)
+          // 更新element upload progress
+          content.onProgress({ percent: percentCompleted })
+        }
+      }).then(response => {
+        // 调用element 上传成功钩子
+        content.onSuccess(response)
+      }).catch(error => {
+        // 调用element 上传失败钩子
+        content.onError(error)
+      })
+    },
+    handleZipUploadSuccess(response, file) {
+      console.log(response)
+      this.temp.url = config.serverURI + response.data.url
+    },
+    handleZipUploadError(err) {
+      console.log(err)
+      this.$message({
+        message: '上传失败',
+        type: 'error'
+      })
+    },
+    handleZipUploadProgress(event, file, fileList) {
+      console.log(event, file)
+    },
+    handleZipRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    beforeZipRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleZipExceed(files, fileList) {
+      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.$message.warning(`当前限制选择 1 个文件`)
+    },
+    handleFilter() {
+      this.listQuery.page = 1
+      this.getList()
     },
     handleCreate() {
       this.resetTemp()
@@ -322,16 +408,17 @@ export default {
     resetTemp() {
       this.temp = {
         id: undefined,
-        title: '',
-        introduction: '',
-        photo: '',
-        content: ''
+        name: '',
+        remark: '',
+        rule: '',
+        cover: '',
+        url: ''
       }
     },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          storyService.postModel(this.temp).then(() => {
+          gameService.postModel(this.temp).then(() => {
             this.getList()
             this.dialogFormVisible = false
             this.$message({
@@ -339,15 +426,11 @@ export default {
               type: 'success'
             })
           }).catch(error => {
-            console.error('story.postModel-error:', error)
+            console.error('game.postModel-error:', error)
             this.getList()
             this.dialogFormVisible = false
-            let errMsg = '添加失败'
-            if (error.data.message === 'Validation error') {
-              errMsg = '名称不能重复'
-            }
             this.$message({
-              message: errMsg,
+              message: '添加失败',
               type: 'error'
             })
           })
@@ -357,7 +440,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          storyService.putModel(this.temp.id, this.temp).then(() => {
+          gameService.putModel(this.temp.id, this.temp).then(() => {
             this.getList()
             this.dialogFormVisible = false
             this.$message({
@@ -365,7 +448,7 @@ export default {
               type: 'success'
             })
           }).catch(error => {
-            console.error('story.postModel-error:', error)
+            console.error('game.postModel-error:', error)
             this.getList()
             this.dialogFormVisible = false
             this.$message({
@@ -377,14 +460,14 @@ export default {
       })
     },
     deleteData() {
-      storyService.deleteModel(this.temp.id).then(() => {
+      gameService.deleteModel(this.temp.id).then(() => {
         this.getList()
         this.$message({
           message: '删除成功',
           type: 'success'
         })
       }).catch(error => {
-        console.error('story.deleteModel-error:', error)
+        console.error('game.deleteModel-error:', error)
         this.getList()
         this.$message({
           message: '删除失败',
@@ -393,14 +476,14 @@ export default {
       })
     },
     deleteDataBatch(ids) {
-      storyService.deleteModels(ids).then(() => {
+      gameService.deleteModels(ids).then(() => {
         this.getList()
         this.$message({
           message: '批量删除成功',
           type: 'success'
         })
       }).catch(error => {
-        console.error('story.deleteModels-error:', error)
+        console.error('game.deleteModels-error:', error)
         this.getList()
         this.$message({
           message: '批量删除失败',
@@ -413,7 +496,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-  .page-story {
+  .page-game {
     .avatar-uploader .el-upload {
       border: 1px dashed #d9d9d9;
       border-radius: 6px;

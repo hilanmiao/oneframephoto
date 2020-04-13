@@ -1,6 +1,6 @@
 <template>
   <div class="">
-
+    短信登录
   </div>
 </template>
 
