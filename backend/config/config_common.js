@@ -19,6 +19,11 @@ const constants = {
   LOCKOUT_PERIOD: 30, // 锁定期限 in units of minutes
   API_TITLE: 'API',
   WEB_TITLE: 'Admin',
+  SMS: { //  短信限制
+    SEND_INTERVAL: 60, // 发送时间间隔 秒
+    COUNT_LIMIT: 5, // 每天上限 条数
+    EFFECTIVE_TIME: 60 * 5 // 有效时间 5分钟
+  }
 };
 
 const config = {

@@ -76,11 +76,8 @@ export default {
       passwordType: 'password',
       capsTooltip: false,
       loading: false,
-      showDialog: false,
       redirect: undefined,
-      otherQuery: {},
-      shortUrl: '',
-      activeTabName: 'account'
+      otherQuery: {}
     }
   },
   created() {
@@ -133,6 +130,7 @@ export default {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
             })
             .catch(error => {
+              console.log(error)
               this.loading = false
               Message({
                 message: error.data.message,

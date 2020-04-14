@@ -11,6 +11,7 @@ export { default as shortUrlService } from './short-url.service'
 export { default as notificationService } from './notification.service'
 export { default as loginLogService } from './login-log.service'
 export { default as operationLogService } from './operation-log.service'
+export { default as smsService } from './sms.service'
 
 export { default as gameService } from './game.service'
 export { default as storyService } from './story.service'

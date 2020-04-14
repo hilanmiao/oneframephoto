@@ -10,7 +10,7 @@ class CommonController extends Controller {
   // 获取验证码
   async getVerification() {
     const { ctx } = this;
-    const options = {// 参数
+    const options = { // 参数
       width: 100,
       height: 40, // height of captcha
       fontSize: 50, // captcha text size
@@ -29,7 +29,7 @@ class CommonController extends Controller {
     }
     // 设置session过期时间
     ctx.session.maxAge = 1000 * 60 * 10;
-    ctx.body = {// 返回结果给客户端
+    ctx.body = { // 返回结果给客户端
       data: Captcha.data,
     };
     ctx.status = 200;
