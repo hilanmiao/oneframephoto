@@ -10,5 +10,5 @@ module.exports = app => {
 
   const tokenRequired = middleware.tokenRequired(null, app)
 
-  apiRouter.post('/sms/sendSmsCode', sms.sendSmsCode)
+  apiRouter.post('/sms/sendLoginSmsCode', sms.sendLoginSmsCode)
 };

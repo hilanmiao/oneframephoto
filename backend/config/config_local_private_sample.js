@@ -7,6 +7,7 @@ const config = {
   DOMAIN: '127.0.0.1:7001',
   WEB_URL: 'http://localhost:9527',
   JWT_SECRET: 'oneframephoto',
+  DEFAULT_ROLE_NAME: '普通用户',
   GITHUB_ID: '',
   GITHUB_SECRET: '',
   WEIXIN_ID: '',

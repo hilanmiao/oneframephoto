@@ -38,7 +38,7 @@
 import { validMobile } from '@/utils/validate'
 import { authService, smsService } from '@/services'
 import { Message } from 'element-ui'
-import _ from 'lodash'
+// import _ from 'lodash'
 
 export default {
   name: 'Login',
@@ -50,6 +50,13 @@ export default {
         callback()
       }
     }
+    const validateVerificationCode = (rule, value, callback) => {
+      if (!/^\d{6}$/.test(value)) {
+        callback(new Error('请输入6位数字验证码'))
+      } else {
+        callback()
+      }
+    }
     return {
       loginForm: {
         mobile: '',
@@ -57,7 +64,7 @@ export default {
       },
       loginRules: {
         mobile: [{ required: true, trigger: 'blur', validator: validateMobile }],
-        verificationCode: [{ required: true, trigger: 'blur', type: 'number', message: '请输入6位数字验证码' }]
+        verificationCode: [{ required: true, trigger: 'blur', validator: validateVerificationCode }]
       },
       loading: false,
       redirect: undefined,
@@ -98,22 +105,22 @@ export default {
             }, 1000)
 
             // 发送短信
-            this.sendSmsCode()
+            this.sendLoginSmsCode()
           }
         }
       })
     },
-    sendSmsCode() {
-      smsService.postSendSmsCode({ mobile: this.loginForm.mobile })
+    sendLoginSmsCode() {
+      smsService.postSendLoginSmsCode({ mobile: this.loginForm.mobile })
         .then(response => {
         })
         .catch(error => {
           // 如果错误消息包含以下关键字，就禁止发送了
-          if (_.includes(error.data.message, '频繁') || _.includes(error.data.message, '上限')) {
-            this.canSend = false
-            this.countdown = 0
-            clearInterval(this.timer) // 清除定时器
-          }
+          // if (_.includes(error.data.message, '频繁') || _.includes(error.data.message, '上限')) {
+          //   this.canSend = false
+          //   this.countdown = 0
+          //   clearInterval(this.timer) // 清除定时器
+          // }
 
           Message({
             message: error.data.message,
@@ -127,7 +134,7 @@ export default {
         if (valid) {
           this.loading = true
 
-          authService.login(this.loginForm)
+          authService.loginNote(this.loginForm)
             .then(response => {
               this.loading = false
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })

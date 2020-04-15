@@ -54,4 +54,28 @@ internals.loginSocial = token => {
     })
 }
 
+internals.loginNote = credentials => {
+  return http
+    .post('api/login/note', credentials)
+    .then(response => {
+      store.dispatch('auth/setAuth', response.data)
+    })
+    .catch(error => {
+      console.error('authService.login-error:\n', error)
+      throw error
+    })
+}
+
+internals.loginScan = credentials => {
+  return http
+    .post('api/login/scan', credentials)
+    .then(response => {
+      store.dispatch('auth/setAuth', response.data)
+    })
+    .catch(error => {
+      console.error('authService.login-error:\n', error)
+      throw error
+    })
+}
+
 export default internals

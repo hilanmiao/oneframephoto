@@ -103,10 +103,16 @@ class UserService extends Service {
     return await model.update({ isEnabled: false });
   }
 
-  // 根据用户名查找
+  // 根据用户名查找(邮箱不属于快捷登录，需要设置username)
   async findByUserName(username) {
     const { app: { model: { User } } } = this;
     return await User.findOne({ where: { username } });
+  }
+
+  // 根据 mobile 查找
+  async findByMobile(mobile) {
+    const { app: { model: { User } } } = this;
+    return await User.findOne({ where: { mobile } });
   }
 
   // 根据 githubId 查找

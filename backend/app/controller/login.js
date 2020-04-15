@@ -10,6 +10,11 @@ class LoginController extends Controller {
       username: { type: 'string', required: true, allowEmpty: false },
       password: { type: 'string', required: true, allowEmpty: false }
     };
+
+    this.loginNoteRule = {
+      mobile: { type: 'string', required: true, allowEmpty: false },
+      verificationCode: { type: 'string', required: true, allowEmpty: false }
+    };
   }
 
   // 登录
@@ -29,7 +34,7 @@ class LoginController extends Controller {
       payloadLog.remark = message
     } else if (!data.user.isEnabled) {
       const message = '账户已经被禁用'
-      ctx.helper.unauthorized({ ctx, message: '账户已经被禁用' })
+      ctx.helper.unauthorized({ ctx, message })
 
       payloadLog.remark = message
     } else {
@@ -59,6 +64,43 @@ class LoginController extends Controller {
       }
       this.success({ ctx, data })
     }
+  }
+
+  // 短信登录
+  async loginNote() {
+    const { app, ctx, service: { login, loginLog } } = this;
+    ctx.validate(this.loginNoteRule);
+    const { mobile, verificationCode } = ctx.request.body
+    const payload = { mobile, verificationCode }
+    let data = await login.loginNote(payload);
+
+    const payloadLog = { mobile, content: JSON.stringify(ctx.request), remark: '短信登录成功' }
+
+    if (!data.user.isEnabled) {
+      const message = '账户已经被禁用'
+      ctx.helper.unauthorized({ ctx, message })
+
+      payloadLog.remark = message
+    } else if (!data.smsCheckData.result) {
+      // 短信验证失败
+      const message = data.smsCheckData.message
+      ctx.helper.unauthorized({ ctx, message })
+
+      payloadLog.remark = message
+    } else {
+      data = {
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+      }
+      this.success({ ctx, data })
+
+      loginLog.create(payloadLog);
+    }
+  }
+
+  // 扫码登录
+  loginScan() {
+
   }
 }
 

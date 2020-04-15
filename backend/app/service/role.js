@@ -98,6 +98,13 @@ class RoleService extends Service {
     }
     return await model.update({ isEnabled: false });
   }
+
+  // 根据名称查找
+  async findByDefaultName() {
+    const name = this.config.myConfig.private.DEFAULT_ROLE_NAME
+    const { app: { model: { Role } } } = this;
+    return await Role.findOne({ where: { name } });
+  }
 }
 
 module.exports = RoleService;

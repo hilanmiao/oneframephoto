@@ -11,4 +11,6 @@ module.exports = app => {
   apiRouter.post('/login', login.login)
 
   apiRouter.post('/login/social', login.loginSocial)
+  apiRouter.post('/login/note', login.loginNote)
+  apiRouter.post('/login/scan', login.loginScan)
 };

@@ -23,11 +23,11 @@ class SmsController extends Controller {
   }
 
   // 发送短信验证码
-  async sendSmsCode() {
+  async sendLoginSmsCode() {
     const { ctx, service: { sms } } = this;
     const { mobile } = ctx.request.body;
     const payload = { mobile };
-    const data = await sms.sendSmsCode(payload);
+    const data = await sms.sendLoginSmsCode(payload);
     if (data.result) {
       this.success({ ctx });
     } else {

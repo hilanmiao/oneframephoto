@@ -7,8 +7,8 @@ const Service = require('egg/index').Service;
 
 class SmsService extends Service {
 
-  // 发送短信验证码
-  async sendSmsCode(payload) {
+  // 发送登录短信验证码
+  async sendLoginSmsCode(payload) {
     const { app } = this;
     const { mobile } = payload;
 
@@ -76,6 +76,49 @@ class SmsService extends Service {
       await this.app.redis.incr(countKey)
     }
     console.log('send redis count')
+
+    data.result = true
+    return data
+  }
+
+  // 检查登录验证码
+  async checkLoginSmsCode(payload) {
+    const { app } = this;
+    const { mobile, verificationCode } = payload
+
+    const prefix = 'smslogin'
+    const codeKeyPrefix = `${prefix}_${mobile}`
+
+    const data = { result: false, message: '' }
+
+    // 1.判断有没有该账号的验证码
+    const list = await this.app.redis.keys(codeKeyPrefix + '*')
+    console.log('list', list)
+
+    if (!list.length) {
+      data.message = '验证码不存在或已过期'
+      return data
+    }
+
+    // 2.判断是不是有该验证码
+    let codeMatch = false
+    for (const item of list) {
+      const code = await this.app.redis.get(item)
+      if (code === verificationCode) {
+        codeMatch = true
+        break;
+      }
+    }
+
+    if (!codeMatch) {
+      data.message = '验证码不正确'
+      return data
+    }
+
+    // 3.成功登录后删除该手机号所有的验证码，但不删除今日配额
+    for (const item of list) {
+      await this.app.redis.del(item)
+    }
 
     data.result = true
     return data

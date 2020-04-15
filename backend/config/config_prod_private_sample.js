@@ -7,6 +7,7 @@ const config = {
   DOMAIN: 'oneframephoto.com',
   WEB_URL: 'http://www.oneframephoto.com',
   JWT_SECRET: 'oneframephoto',
+  DEFAULT_ROLE_NAME: '普通用户',
   GITHUB_ID: '',
   GITHUB_SECRET: '',
   WEIXIN_ID: '',
