@@ -1,11 +1,50 @@
 'use strict';
 
+const Core = require('@alicloud/pop-core');
 const cryptoRandomString = require('crypto-random-string')
 const dayjs = require('dayjs')
 
 const Service = require('egg/index').Service;
 
 class SmsService extends Service {
+
+  async sendSms(payload) {
+    const { mobile, code } = payload
+    let result = false
+
+    const AliSms = this.config.myConfig.private.ALISMS
+
+    const client = new Core({
+      accessKeyId: AliSms.ACCESS_KEY_ID,
+      accessKeySecret: AliSms.ACCESS_KEY_SECRET,
+      endpoint: AliSms.ENDPOINT,
+      apiVersion: AliSms.API_VERSION
+    });
+
+    const params = {
+      RegionId: AliSms.REGION_ID,
+      PhoneNumbers: mobile,
+      SignName: AliSms.SIGN_NAME,
+      TemplateCode: AliSms.TEMPLATE_CODE.LOGIN_TEMPLATE,
+      TemplateParam: JSON.stringify({ code })
+    };
+
+    const requestOption = {
+      method: 'POST'
+    };
+
+    try {
+      const data = await client.request('SendSms', params, requestOption)
+      console.log('send sms')
+      if (data.Code === 'OK') {
+        result = true
+      }
+    } catch (e) {
+      console.log(e)
+    }
+
+    return result
+  }
 
   // 发送登录短信验证码
   async sendLoginSmsCode(payload) {
@@ -61,7 +100,12 @@ class SmsService extends Service {
     // 3.发送验证码
     const code = cryptoRandomString({ length: 6, type: 'numeric' })
     // 阿里云短信接口
-    console.log('send sms')
+    if (!await this.sendSms({ mobile, code })) {
+      console.log('send sms error')
+      data.message = '短信发送失败'
+      return data
+    }
+    console.log('send sms ok')
 
     // 4.设置到redis，并设置过期时间
     await this.app.redis.setex(codeKey, EFFECTIVE_TIME, code)

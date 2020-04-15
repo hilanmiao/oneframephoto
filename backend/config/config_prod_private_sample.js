@@ -39,6 +39,17 @@ const config = {
     APPID: '',
     SECRET: ''
   },
+  ALISMS: {
+    ACCESS_KEY_ID: '',
+    ACCESS_KEY_SECRET: '',
+    ENDPOINT: 'https://dysmsapi.aliyuncs.com',
+    API_VERSION: '2017-05-25',
+    REGION_ID: 'cn-hangzhou',
+    SIGN_NAME: '',
+    TEMPLATE_CODE: {
+      LOGIN_TEMPLATE: ''
+    }
+  },
   SHORTURL: {
     CACHE_MAX_AGE: 3600 * 24 * 7,
     CACHE_PREFIX: 'dwz'

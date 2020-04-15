@@ -8,7 +8,7 @@
     "declarations": true
   },
   "dependencies": {
-    "@alicloud/pop-core": "^1.7.7",
+    "@alicloud/pop-core": "^1.7.9",
     "adm-zip": "^0.4.13",
     "await-stream-ready": "^1.0.1",
     "bcryptjs": "^2.4.3",
