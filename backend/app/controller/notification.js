@@ -19,7 +19,11 @@ class NotificationController extends Controller {
     // ctx.validate(this.createRule);
     const payload = { type, title, content }
     const data = await notification.create(payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 删除
@@ -27,7 +31,11 @@ class NotificationController extends Controller {
     const { ctx, service: { notification } } = this;
     const id = ctx.params.id;
     const data = await notification.destroy(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 批量删除
@@ -49,7 +57,11 @@ class NotificationController extends Controller {
     const { type, title, content } = ctx.request.body;
     const payload = { type, title, content }
     const data = await notification.update(id, payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 详情
@@ -57,7 +69,11 @@ class NotificationController extends Controller {
     const { ctx, service: { notification } } = this;
     const id = ctx.params.id;
     const data = await notification.show(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 可用
@@ -65,7 +81,11 @@ class NotificationController extends Controller {
     const { ctx, service: { notification } } = this;
     const id = ctx.params.id;
     const data = await notification.enable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 不可用
@@ -73,7 +93,11 @@ class NotificationController extends Controller {
     const { ctx, service: { notification } } = this;
     const id = ctx.params.id;
     const data = await notification.disable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 列表

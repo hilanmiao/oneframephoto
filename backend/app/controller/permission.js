@@ -19,7 +19,11 @@ class PermissionController extends Controller {
     // ctx.validate(this.createRule);
     const payload = { roleId, identification, type, remark }
     const data = await permission.create(payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 删除
@@ -27,7 +31,11 @@ class PermissionController extends Controller {
     const { ctx, service: { permission } } = this;
     const id = ctx.params.id;
     const data = await permission.destroy(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 批量删除
@@ -49,7 +57,11 @@ class PermissionController extends Controller {
     const { roleId, identification, type, remark } = ctx.request.body;
     const payload = { roleId, identification, type, remark };
     const data = await permission.update(id, payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 详情
@@ -57,7 +69,11 @@ class PermissionController extends Controller {
     const { ctx, service: { permission } } = this;
     const id = ctx.params.id;
     const data = await permission.show(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 可用
@@ -65,7 +81,11 @@ class PermissionController extends Controller {
     const { ctx, service: { permission } } = this;
     const id = ctx.params.id;
     const data = await permission.enable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 不可用
@@ -73,7 +93,11 @@ class PermissionController extends Controller {
     const { ctx, service: { permission } } = this;
     const id = ctx.params.id;
     const data = await permission.disable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 列表

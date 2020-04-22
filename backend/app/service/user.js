@@ -11,7 +11,7 @@ class UserService extends Service {
     const op = {
       where: {
         [Op.or]: {
-          username: { [Op.like]: `%${username}%` },
+          username: { [Op.like]: username ? `%${username}%` : '%%' },
         },
       },
       subQuery: false,

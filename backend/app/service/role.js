@@ -11,7 +11,7 @@ class RoleService extends Service {
     const op = {
       where: {
         [Op.or]: {
-          name: { [Op.like]: `%${name}%` },
+          name: { [Op.like]: name ? `%${name}%` : '%%' },
         },
       },
       subQuery: false,

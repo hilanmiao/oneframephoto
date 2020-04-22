@@ -24,7 +24,11 @@ class StoryController extends Controller {
     payload.photoWidth = wh.width
     payload.photoHeight = wh.height
     const data = await story.create(payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 删除
@@ -32,7 +36,11 @@ class StoryController extends Controller {
     const { ctx, service: { story } } = this;
     const id = ctx.params.id;
     const data = await story.destroy(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 批量删除
@@ -58,7 +66,11 @@ class StoryController extends Controller {
     payload.photoHeight = wh.height
     console.log(payload)
     const data = await story.update(id, payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 详情
@@ -66,7 +78,11 @@ class StoryController extends Controller {
     const { ctx, service: { story } } = this;
     const id = ctx.params.id;
     const data = await story.show(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 可用
@@ -74,7 +90,11 @@ class StoryController extends Controller {
     const { ctx, service: { story } } = this;
     const id = ctx.params.id;
     const data = await story.enable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 不可用
@@ -82,7 +102,11 @@ class StoryController extends Controller {
     const { ctx, service: { story } } = this;
     const id = ctx.params.id;
     const data = await story.disable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 列表

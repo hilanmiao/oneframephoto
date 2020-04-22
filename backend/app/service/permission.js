@@ -11,7 +11,7 @@ class PermissionService extends Service {
     const op = {
       where: {
         [Op.or]: {
-          identification: { [Op.like]: `%${identification}%` },
+          identification: { [Op.like]: identification ? `%${identification}%` : '%%' },
         },
       },
       subQuery: false,

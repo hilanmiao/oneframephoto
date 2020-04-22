@@ -21,7 +21,11 @@ class UserController extends Controller {
     // ctx.validate(this.createRule);
     const payload = { username, password, displayName, email, mobile, sex, profileImageUrl, introduction, roleId }
     const data = await user.create(payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 删除
@@ -29,7 +33,11 @@ class UserController extends Controller {
     const { ctx, service: { user } } = this;
     const id = ctx.params.id;
     const data = await user.destroy(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 批量删除
@@ -51,7 +59,11 @@ class UserController extends Controller {
     const { username, password, displayName, email, mobile, sex, profileImageUrl, introduction, roleId } = ctx.request.body;
     const payload = { username, password, displayName, email, mobile, sex, profileImageUrl, introduction, roleId };
     const data = await user.update(id, payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 详情
@@ -59,7 +71,11 @@ class UserController extends Controller {
     const { ctx, service: { user } } = this;
     const id = ctx.params.id;
     const data = await user.show(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 可用
@@ -67,7 +83,11 @@ class UserController extends Controller {
     const { ctx, service: { user } } = this;
     const id = ctx.params.id;
     const data = await user.enable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 不可用
@@ -75,7 +95,11 @@ class UserController extends Controller {
     const { ctx, service: { user } } = this;
     const id = ctx.params.id;
     const data = await user.disable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 列表
@@ -109,7 +133,11 @@ class UserController extends Controller {
     // data.roles = [{ roleId: '1', roleName: 'administrator' }]
     // data.permissions = []
     const data = await service.user.getCurrentUserProfile(user.id);
-    this.success({ ctx, data })
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 更新当前用户密码

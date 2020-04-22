@@ -19,7 +19,11 @@ class GameController extends Controller {
     // ctx.validate(this.createRule);
     const payload = { name, remark, rule, cover, url }
     const data = await game.create(payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 删除
@@ -27,7 +31,11 @@ class GameController extends Controller {
     const { ctx, service: { game } } = this;
     const id = ctx.params.id;
     const data = await game.destroy(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 批量删除
@@ -49,7 +57,11 @@ class GameController extends Controller {
     const { name, remark, rule, cover, url } = ctx.request.body;
     const payload = { name, remark, rule, cover, url };
     const data = await game.update(id, payload);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 详情
@@ -57,7 +69,11 @@ class GameController extends Controller {
     const { ctx, service: { game } } = this;
     const id = ctx.params.id;
     const data = await game.show(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 可用
@@ -65,7 +81,11 @@ class GameController extends Controller {
     const { ctx, service: { game } } = this;
     const id = ctx.params.id;
     const data = await game.enable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 不可用
@@ -73,7 +93,11 @@ class GameController extends Controller {
     const { ctx, service: { game } } = this;
     const id = ctx.params.id;
     const data = await game.disable(id);
-    this.success({ ctx, data });
+    if (data) {
+      this.success({ ctx, data });
+    } else {
+      this.fail({ ctx, message: '发生异常' });
+    }
   }
 
   // 列表
